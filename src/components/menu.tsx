@@ -7,6 +7,7 @@ import settingsStore from '@/features/stores/settings'
 import slideStore from '@/features/stores/slide'
 import { AssistantText } from './assistantText'
 import { ChatLog } from './chatLog'
+import { MathProblemsView } from './mathProblemsView'
 import { IconButton } from './iconButton'
 import Settings from './settings'
 import { Webcam } from './webcam'
@@ -61,6 +62,7 @@ export const Menu = () => {
     HIDDEN: 0, // 非表示
     ASSISTANT: 1, // アシスタントテキスト
     CHAT_LOG: 2, // 会話ログ
+    MATH_PROBLEMS: 3, // 数学問題のみ表示
   } as const
 
   const [chatLogMode, setChatLogMode] = useState<number>(
@@ -230,15 +232,17 @@ export const Menu = () => {
               <div className="md:order-2 order-1">
                 <IconButton
                   iconName={
-                    chatLogMode === CHAT_LOG_MODE.CHAT_LOG
+                    chatLogMode === CHAT_LOG_MODE.MATH_PROBLEMS
                       ? '24/CommentOutline'
-                      : chatLogMode === CHAT_LOG_MODE.ASSISTANT
-                        ? '24/CommentFill'
-                        : '24/Close'
+                      : chatLogMode === CHAT_LOG_MODE.CHAT_LOG
+                        ? '24/CommentOutline'
+                        : chatLogMode === CHAT_LOG_MODE.ASSISTANT
+                          ? '24/CommentFill'
+                          : '24/Close'
                   }
                   label={t('ChatLog')}
                   isProcessing={false}
-                  onClick={() => setChatLogMode((prev) => (prev + 1) % 3)}
+                  onClick={() => setChatLogMode((prev) => (prev + 1) % 4)}
                 />
               </div>
               {!youtubeMode && (
@@ -324,6 +328,7 @@ export const Menu = () => {
         {slideMode && slideVisible && <Slides markdown={markdownContent} />}
       </div>
       {chatLogMode === CHAT_LOG_MODE.CHAT_LOG && <ChatLog />}
+      {chatLogMode === CHAT_LOG_MODE.MATH_PROBLEMS && <MathProblemsView />}
       {showSettings && <Settings onClickClose={() => setShowSettings(false)} />}
       {chatLogMode === CHAT_LOG_MODE.ASSISTANT &&
         latestAssistantMessage &&

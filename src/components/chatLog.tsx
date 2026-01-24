@@ -1,10 +1,11 @@
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
-import { EMOTIONS } from '@/features/messages/messages'
+import { useEffect, useRef, useState, useMemo } from 'react'
+import { EMOTIONS, Message } from '@/features/messages/messages'
 
 import homeStore from '@/features/stores/home'
 import settingsStore from '@/features/stores/settings'
 import { messageSelectors } from '@/features/messages/messageSelectors'
+import type { MathProblem } from '@/features/stores/home'
 
 export const ChatLog = () => {
   const chatScrollRef = useRef<HTMLDivElement>(null)
@@ -16,6 +17,20 @@ export const ChatLog = () => {
   const messages = messageSelectors.getTextAndImageMessages(
     homeStore((s) => s.chatLog)
   )
+  const mathProblems = homeStore((s) => s.mathProblems)
+
+  // Tạo map để tìm mathProblem theo messageId
+  const mathProblemsByMessageId = useMemo(() => {
+    const map = new Map<string, MathProblem>()
+    mathProblems
+      .filter(mp => mp.source === 'assistant' && mp.messageId)
+      .forEach(mp => {
+        if (mp.messageId) {
+          map.set(mp.messageId, mp)
+        }
+      })
+    return map
+  }, [mathProblems])
 
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
@@ -79,8 +94,13 @@ export const ChatLog = () => {
     >
       <div className="max-h-full px-4 pt-24 pb-16 overflow-y-auto scroll-hidden">
         {messages.map((msg, i) => {
+          // Tìm mathProblem tương ứng nếu là message từ assistant
+          const relatedMathProblem = msg.role === 'assistant' && msg.id
+            ? mathProblemsByMessageId.get(msg.id)
+            : null
+
           return (
-            <div key={i} ref={messages.length - 1 === i ? chatScrollRef : null}>
+            <div key={msg.id || i} ref={messages.length - 1 === i ? chatScrollRef : null}>
               {typeof msg.content === 'string' ? (
                 <Chat
                   role={msg.role}
@@ -100,6 +120,13 @@ export const ChatLog = () => {
                     characterName={characterName}
                   />
                 </>
+              )}
+              {/* Hiển thị đề bài toán ngay sau message từ assistant nếu có */}
+              {relatedMathProblem && (
+                <MathProblemCard
+                  mathProblem={relatedMathProblem}
+                  characterName={characterName}
+                />
               )}
             </div>
           )
@@ -146,7 +173,7 @@ const Chat = ({
           <div
             className={`px-6 py-2 rounded-t-lg font-bold tracking-wider ${roleColor}`}
           >
-            {role !== 'user' ? characterName || 'CHARACTER' : 'YOU'}
+            {role !== 'user' ? characterName || 'Cô Mây' : 'Con'}
           </div>
           <div className="px-6 py-4 bg-white rounded-b-lg">
             <div className={`font-bold ${roleText}`}>{processedMessage}</div>
@@ -177,6 +204,29 @@ const ChatImage = ({
         width={512}
         height={512}
       />
+    </div>
+  )
+}
+
+const MathProblemCard = ({
+  mathProblem,
+  characterName,
+}: {
+  mathProblem: MathProblem
+  characterName: string
+}) => {
+  return (
+    <div className="mx-auto ml-0 md:ml-10 lg:ml-20 my-4 pr-10">
+      <div className="bg-green-50 rounded-lg border-2 border-green-300 shadow-md mt-2">
+        <div className="px-6 py-2 bg-green-500 text-white rounded-t-lg font-bold tracking-wider text-sm">
+          📚 Đề bài toán (Cô Mây đưa ra)
+        </div>
+        <div className="px-6 py-4 bg-white rounded-b-lg">
+          <div className="font-bold text-primary text-base whitespace-pre-wrap">
+            {mathProblem.problem}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

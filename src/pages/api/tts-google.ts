@@ -16,6 +16,14 @@ export default async function handler(
   const languageCode = req.body.languageCode || 'ja-JP'
 
   try {
+    // SSMLが含まれているかチェック
+    const isSSML = message.includes('<break') || message.includes('<speak>')
+    
+    // SSMLの場合はspeakタグでラップ、そうでない場合はそのまま
+    const inputText = isSSML
+      ? { ssml: message.includes('<speak>') ? message : `<speak>${message}</speak>` }
+      : { text: message }
+
     // Check if GOOGLE_TTS_KEY exists
     if (process.env.GOOGLE_TTS_KEY) {
       // Use API Key based authentication
@@ -27,7 +35,7 @@ export default async function handler(
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            input: { text: message },
+            input: inputText,
             voice: { languageCode: languageCode, name: ttsType },
             audioConfig: { audioEncoding: 'MP3' },
           }),
@@ -45,7 +53,7 @@ export default async function handler(
       const client = new textToSpeech.TextToSpeechClient()
 
       const request: google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
-        input: { text: message },
+        input: inputText,
         voice: { languageCode: languageCode, name: ttsType },
         audioConfig: { audioEncoding: 'MP3' },
       }

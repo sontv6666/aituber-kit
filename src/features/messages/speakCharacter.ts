@@ -264,6 +264,19 @@ const createSpeakCharacter = () => {
         }
       }
 
+      // Loại bỏ tag [MATH_PROBLEM] khỏi message trước khi phát (tag chỉ dùng để lưu trữ)
+      if (talk.message) {
+        const { removeMathProblemTag } = await import('@/utils/extractMathProblemTag')
+        talk.message = removeMathProblemTag(talk.message)
+      }
+
+      // 子供向けにpauseを追加（句読点の後に一時停止を追加）
+      if (talk.message && ss.selectLanguage === 'vi') {
+        const { addPausesForChildren } = await import('@/utils/textProcessing')
+        const useSSML = ss.selectVoice === 'google'
+        talk.message = addPausesForChildren(talk.message, useSSML)
+      }
+
       let buffer
       try {
         if (talk.message == '' && talk.buffer) {

@@ -81,10 +81,20 @@ export async function streamAiText({
     console.error(`Vercel AI Stream Error: ${error.message || 'Unknown error'}`)
     console.error(`Model: ${model}, Temperature: ${temperature}`)
 
+    // Handle API version incompatibility errors
+    let errorMessage = error.message || 'Unknown error'
+    let errorCode = 'AIServiceError'
+    
+    if (error.message?.includes('Unsupported model version v1') || 
+        error.message?.includes('specification version')) {
+      errorMessage = `The model "${model}" only supports API v1, but this requires API v2. Please try a different model that supports v2 specification. For OpenRouter, check compatible models at https://openrouter.ai/models`
+      errorCode = 'ModelVersionIncompatible'
+    }
+
     return new Response(
       JSON.stringify({
-        error: `AI Service Error: ${error.message || 'Unknown error'}`,
-        errorCode: 'AIServiceError',
+        error: `AI Service Error: ${errorMessage}`,
+        errorCode,
       }),
       {
         status: 500,
@@ -128,10 +138,20 @@ export async function generateAiText({
     )
     console.error(`Model: ${model}, Temperature: ${temperature}`)
 
+    // Handle API version incompatibility errors
+    let errorMessage = error.message || 'Unknown error'
+    let errorCode = 'AIServiceError'
+    
+    if (error.message?.includes('Unsupported model version v1') || 
+        error.message?.includes('specification version')) {
+      errorMessage = `The model "${model}" only supports API v1, but this requires API v2. Please try a different model that supports v2 specification. For OpenRouter, check compatible models at https://openrouter.ai/models`
+      errorCode = 'ModelVersionIncompatible'
+    }
+
     return new Response(
       JSON.stringify({
-        error: `AI Service Error: ${error.message || 'Unknown error'}`,
-        errorCode: 'AIServiceError',
+        error: `AI Service Error: ${errorMessage}`,
+        errorCode,
       }),
       {
         status: 500,

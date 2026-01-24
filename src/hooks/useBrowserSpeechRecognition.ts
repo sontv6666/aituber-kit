@@ -126,9 +126,20 @@ export const useBrowserSpeechRecognition = (
   // ----- 音声認識開始処理 -----
   const startListening = useCallback(async () => {
     const hasPermission = await checkMicrophonePermission()
-    if (!hasPermission) return
+    if (!hasPermission) {
+      console.error('❌ Microphone permission denied')
+      return
+    }
 
-    if (!recognition) return
+    if (!recognition) {
+      console.error('❌ SpeechRecognition is not initialized yet. Please wait a moment and try again.')
+      toastStore.getState().addToast({
+        message: t('Toasts.SpeechRecognitionNotSupported') || 'Speech recognition is not ready. Please refresh the page.',
+        type: 'error',
+        tag: 'speech-recognition-not-initialized',
+      })
+      return
+    }
 
     // 既に認識が開始されている場合は、一度停止してから再開する
     if (isListeningRef.current) {
@@ -491,6 +502,7 @@ export const useBrowserSpeechRecognition = (
     }
 
     setRecognition(newRecognition)
+    console.log('✅ SpeechRecognition initialized successfully')
 
     // クリーンアップ関数
     return () => {
@@ -514,7 +526,7 @@ export const useBrowserSpeechRecognition = (
     selectLanguage,
     initialSpeechTimeout,
     t,
-    // stopListening,
+    stopListening,
     clearSilenceDetection,
     clearInitialSpeechCheckTimer,
     startSilenceDetection,

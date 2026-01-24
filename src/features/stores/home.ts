@@ -6,11 +6,25 @@ import { Viewer } from '../vrmViewer/viewer'
 import { messageSelectors } from '../messages/messageSelectors'
 import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch'
 import { generateMessageId } from '@/utils/messageUtils'
+import { 
+  extractMathProblemTag, 
+  removeMathProblemTag 
+} from '@/utils/extractMathProblemTag'
+import { isMathProblem, extractMathProblem } from '@/utils/mathProblemFilter'
+
+export interface MathProblem {
+  id: string
+  problem: string
+  timestamp: string
+  source: 'user' | 'assistant' // Nguồn: từ học sinh hỏi hoặc từ Cô Mây đưa ra
+  messageId?: string // ID của message tương ứng (để match chính xác)
+}
 
 export interface PersistedState {
   userOnboarded: boolean
   chatLog: Message[]
   showIntroduction: boolean
+  mathProblems: MathProblem[] // Danh sách đề bài toán đã được lưu
 }
 
 export interface TransientState {
@@ -60,6 +74,7 @@ const homeStore = create<HomeState>()(
       userOnboarded: false,
       chatLog: [],
       showIntroduction: process.env.NEXT_PUBLIC_SHOW_INTRODUCTION !== 'false',
+      mathProblems: [],
 
       // transient states
       viewer: new Viewer(),
@@ -86,6 +101,64 @@ const homeStore = create<HomeState>()(
           )
 
           let updatedChatLog: Message[]
+          let updatedMathProblems = [...state.mathProblems]
+          const currentTimestamp = message.timestamp || new Date().toISOString()
+
+          // Extract đề bài toán từ message content nếu có
+          const messageContent = typeof message.content === 'string' 
+            ? message.content 
+            : Array.isArray(message.content) && message.content[0]?.text
+              ? message.content[0].text
+              : ''
+
+          // Nếu là tin nhắn từ assistant, check tag [MATH_PROBLEM]
+          if (message.role === 'assistant' && messageContent) {
+            const mathProblem = extractMathProblemTag(messageContent)
+            if (mathProblem) {
+              // Lưu đề bài toán vào mathProblems với messageId để match chính xác
+              const newMathProblem: MathProblem = {
+                id: generateMessageId(),
+                problem: mathProblem,
+                timestamp: currentTimestamp,
+                source: 'assistant',
+                messageId: messageId, // Lưu messageId để match chính xác với message
+              }
+              updatedMathProblems = [...updatedMathProblems, newMathProblem]
+              
+              // Loại bỏ tag khỏi message content trước khi lưu
+              const cleanedContent = removeMathProblemTag(messageContent)
+              if (typeof message.content === 'string') {
+                message.content = cleanedContent
+              } else if (Array.isArray(message.content) && message.content.length > 0) {
+                // Giữ nguyên cấu trúc array, chỉ update text
+                message.content = [
+                  { ...message.content[0], text: cleanedContent },
+                  ...message.content.slice(1)
+                ] as typeof message.content
+              }
+            }
+          }
+
+          // Nếu là tin nhắn từ user và có vẻ là đề bài toán
+          if (message.role === 'user' && messageContent && isMathProblem(messageContent)) {
+            const mathProblem = extractMathProblem(messageContent)
+            if (mathProblem) {
+              // Check xem đề bài này đã tồn tại chưa (tránh trùng lặp)
+              const isDuplicate = updatedMathProblems.some(
+                mp => mp.problem === mathProblem && mp.source === 'user'
+              )
+              
+              if (!isDuplicate) {
+                const newMathProblem: MathProblem = {
+                  id: generateMessageId(),
+                  problem: mathProblem,
+                  timestamp: currentTimestamp,
+                  source: 'user',
+                }
+                updatedMathProblems = [...updatedMathProblems, newMathProblem]
+              }
+            }
+          }
 
           if (existingMessageIndex > -1) {
             updatedChatLog = [...currentChatLog]
@@ -103,7 +176,7 @@ const homeStore = create<HomeState>()(
                 'Cannot add message without role or content',
                 message
               )
-              return { chatLog: currentChatLog }
+              return { chatLog: currentChatLog, mathProblems: updatedMathProblems }
             }
             const newMessage: Message = {
               id: messageId,
@@ -116,7 +189,10 @@ const homeStore = create<HomeState>()(
             console.log(`Message added: ID=${messageId}`)
           }
 
-          return { chatLog: updatedChatLog }
+          return { 
+            chatLog: updatedChatLog,
+            mathProblems: updatedMathProblems,
+          }
         })
       },
       backgroundImageUrl:
@@ -135,9 +211,10 @@ const homeStore = create<HomeState>()(
     }),
     {
       name: 'aitube-kit-home',
-      partialize: ({ chatLog, showIntroduction }) => ({
+      partialize: ({ chatLog, showIntroduction, mathProblems }) => ({
         chatLog: messageSelectors.cutImageMessage(chatLog),
         showIntroduction,
+        mathProblems,
       }),
       onRehydrateStorage: () => (state) => {
         if (state) {

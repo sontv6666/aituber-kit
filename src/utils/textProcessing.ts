@@ -75,3 +75,36 @@ export async function asyncConvertEnglishToJapaneseReading(
 export function containsEnglish(text: string): boolean {
   return /[a-zA-Z]/.test(text)
 }
+
+/**
+ * テキストにpauseを追加して、子供が聞き取りやすくする
+ * 句読点（。、，.）の後にpause markerを追加
+ * @param text 元のテキスト
+ * @param useSSML SSML形式でpauseを追加するか（Google TTSなど）
+ * @returns 処理後のテキスト
+ */
+export function addPausesForChildren(
+  text: string,
+  useSSML: boolean = false
+): string {
+  if (!text) return text
+
+  // SSML形式（Google TTSなど）
+  if (useSSML) {
+    // 句点（。）の後に長めのpause（0.8秒）、読点（、，）の後に短めのpause（0.4秒）
+    // これにより子供が各文を理解する時間ができる
+    return text
+      .replace(/([。．！？])/g, '$1<break time="800ms"/>')
+      .replace(/([，、])/g, '$1<break time="400ms"/>')
+      .replace(/([.,])\s*/g, '$1<break time="400ms"/>')
+  }
+
+  // SSMLを使わない場合：複数のスペースと改行を追加して自然なpauseを演出
+  // 多くのTTSエンジンは複数のスペースを無視するため、改行を追加
+  // ただし、改行を無視するTTSもあるため、複数のスペースも併用
+  return text
+    .replace(/([。．！？])\s*/g, '$1\n\n  ') // 句点の後に改行2つとスペース2つ
+    .replace(/([，、])\s*/g, '$1\n ') // 読点の後に改行1つとスペース1つ
+    .replace(/([.,])\s+/g, '$1\n ') // 英語の句読点の後に改行1つとスペース1つ
+    .replace(/\n\n\n+/g, '\n\n') // 連続する改行を2つに制限
+}
