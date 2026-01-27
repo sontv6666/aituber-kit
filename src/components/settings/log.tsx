@@ -12,6 +12,7 @@ const Log = () => {
   )
   const selectAIService = settingsStore((s) => s.selectAIService)
   const maxPastMessages = settingsStore((s) => s.maxPastMessages)
+  const characterName = settingsStore((s) => s.characterName)
 
   const { t } = useTranslation()
 
@@ -66,7 +67,7 @@ const Log = () => {
                   className="my-2 grid grid-flow-col grid-cols-[100px_1fr_auto] gap-x-fixed"
                 >
                   <div className="min-w-[100px] py-2 whitespace-nowrap">
-                    {value.role === 'user' ? 'You' : 'Character'}
+                    {value.role === 'user' ? 'Con' : characterName || 'Cô Mây'}
                   </div>
                   {typeof value.content == 'string' ? (
                     <input

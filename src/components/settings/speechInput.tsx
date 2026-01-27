@@ -21,12 +21,13 @@ const SpeechInput = () => {
   const initialSpeechTimeout = settingsStore((s) => s.initialSpeechTimeout)
   const realtimeAPIMode = settingsStore((s) => s.realtimeAPIMode)
   const audioMode = settingsStore((s) => s.audioMode)
+  const voskServerUrl = settingsStore((s) => s.voskServerUrl)
 
   const { t } = useTranslation()
 
-  // whisperモードの場合、自動的にnoSpeechTimeoutを0に、showSilenceProgressBarをfalseに設定
+  // whisperまたはvoskモードの場合、自動的にnoSpeechTimeoutを0に、showSilenceProgressBarをfalseに設定
   useEffect(() => {
-    if (speechRecognitionMode === 'whisper') {
+    if (speechRecognitionMode === 'whisper' || speechRecognitionMode === 'vosk') {
       settingsStore.setState({
         initialSpeechTimeout: 0,
         noSpeechTimeout: 0,
@@ -80,17 +81,22 @@ const SpeechInput = () => {
         )}
         <div className="mt-2">
           <TextButton
-            onClick={() =>
+            onClick={() => {
+              // Cycle through: browser -> whisper -> vosk -> browser
+              const modes: Array<'browser' | 'whisper' | 'vosk'> = ['browser', 'whisper', 'vosk']
+              const currentIndex = modes.indexOf(speechRecognitionMode)
+              const nextIndex = (currentIndex + 1) % modes.length
               settingsStore.setState({
-                speechRecognitionMode:
-                  speechRecognitionMode === 'browser' ? 'whisper' : 'browser',
+                speechRecognitionMode: modes[nextIndex],
               })
-            }
+            }}
             disabled={isSpeechModeSwitchDisabled}
           >
             {speechRecognitionMode === 'browser'
               ? t('BrowserSpeechRecognition')
-              : t('WhisperSpeechRecognition')}
+              : speechRecognitionMode === 'vosk'
+                ? t('VoskSpeechRecognition')
+                : t('WhisperSpeechRecognition')}
           </TextButton>
         </div>
       </div>
@@ -144,6 +150,28 @@ const SpeechInput = () => {
             </select>
           </div>
         </>
+      )}
+      {speechRecognitionMode === 'vosk' && (
+        <div className="my-6">
+          <div className="my-4 text-xl font-bold">
+            {t('VoskServerURL') || 'Vosk Server URL'}
+          </div>
+          <div className="my-4 whitespace-pre-line">
+            {t('VoskServerURLInfo') || 'Nhập URL của Vosk server. Mặc định: http://localhost:2700\nVosk chỉ hỗ trợ nhận dạng tiếng Việt.'}
+          </div>
+          <input
+            className="text-ellipsis px-4 py-2 w-full md:w-1/2 bg-white hover:bg-white-hover rounded-lg"
+            type="text"
+            placeholder="http://localhost:2700"
+            value={voskServerUrl}
+            onChange={(e) =>
+              settingsStore.setState({ voskServerUrl: e.target.value })
+            }
+          />
+          <div className="my-4 text-sm text-orange-500">
+            {t('VoskServerURLNote') || 'Lưu ý: Cần cài đặt và chạy Vosk server riêng. Đặt VOSK_SERVER_URL trong file .env để cấu hình.'}
+          </div>
+        </div>
       )}
       {speechRecognitionMode === 'browser' && !realtimeAPIMode && (
         <>

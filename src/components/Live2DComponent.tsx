@@ -14,22 +14,43 @@ const setModelPosition = (
 ) => {
   const settings = settingsStore.getState()
 
+  // Default positioning (same as reset position)
+  const defaultScale = 0.3
+  const defaultX = app.renderer.width / 2
+  const defaultY = app.renderer.height / 2
+
   // If position is fixed and saved, restore it
-  if (
-    settings.fixedCharacterPosition &&
-    (settings.characterPosition.x !== 0 ||
+  // If characterPosition is default (0, 0, 1), use default positioning (reset position)
+  if (settings.fixedCharacterPosition) {
+    if (
+      settings.characterPosition.x !== 0 ||
       settings.characterPosition.y !== 0 ||
-      settings.characterPosition.scale !== 1)
-  ) {
-    model.scale.set(settings.characterPosition.scale)
-    model.x = settings.characterPosition.x
-    model.y = settings.characterPosition.y
+      settings.characterPosition.scale !== 1
+    ) {
+      // Restore saved position
+      model.scale.set(settings.characterPosition.scale)
+      model.x = settings.characterPosition.x
+      model.y = settings.characterPosition.y
+    } else {
+      // Use default positioning (reset position) and save it
+      model.scale.set(defaultScale)
+      model.x = defaultX
+      model.y = defaultY
+      // Save the default position so it's fixed
+      settingsStore.setState({
+        characterPosition: {
+          x: defaultX,
+          y: defaultY,
+          z: settings.characterPosition.z,
+          scale: defaultScale,
+        },
+      })
+    }
   } else {
-    // Default positioning
-    const scale = 0.3
-    model.scale.set(scale)
-    model.x = app.renderer.width / 2
-    model.y = app.renderer.height / 2
+    // Default positioning (not fixed)
+    model.scale.set(defaultScale)
+    model.x = defaultX
+    model.y = defaultY
   }
 }
 

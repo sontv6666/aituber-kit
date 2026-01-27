@@ -6,34 +6,32 @@ paginate: true
 
 <!-- _class: title -->
 
-# AITuberKitのスライドモード解説
+# Chào mừng các em đến với lớp học Toán
+
+## Cô giáo Mây
 
 ![](/slides/demo/images/logo.png)
 
 ---
 
-# 準備
+# Giới thiệu về cô giáo Mây
 
-- AITuberKitで会話できる状態にしておく
-- 対応AI:
-
-  - OpenAI
-  - Anthropic Claude
-  - Google Gemini
-
-- ※ まだの方はAITuberKitの解説noteを参照（https://note.com/nike_cha_n/n/ne98acb25e00f）
+- Cô Mây là giáo viên dạy môn Toán
+- Cô sẽ giúp các em học toán một cách dễ hiểu và thú vị
+- Các em có thể đặt câu hỏi bất cứ lúc nào
 
 ---
 
-# スライドの用意
+# Bài học hôm nay: Phép cộng và phép trừ
 
 <div class="columns">
 <div style="flex: 6;">
 
-最低限必要なファイル：
+Chúng ta sẽ học về:
 
-1. `scripts.json`（台本）
-2. `slides.md`（Marpスライド）
+1. Phép cộng cơ bản
+2. Phép trừ cơ bản
+3. Các ví dụ thực tế
 
 </div>
 <div style="flex: 6;">
@@ -45,14 +43,15 @@ paginate: true
 
 ---
 
-# デモフォルダの活用
+# Phép cộng là gì?
 
 <div class="columns">
 <div style="flex: 7;">
 
-- `public/demo`フォルダを参照
-- デモフォルダをコピーして使用可能
-- 任意のフォルダ名で配置
+- Phép cộng là gộp các số lại với nhau
+- Ví dụ: 2 + 3 = 5
+- Dấu "+" là dấu cộng
+- Kết quả gọi là "tổng"
 
 </div>
 <div style="flex: 5;">
@@ -64,15 +63,17 @@ paginate: true
 
 ---
 
-# スライドモードの有効化
+# Ví dụ về phép cộng
 
 <div class="columns">
 <div>
 
-1. 設定画面を開く
-2. スライドモードを有効にする
-3. 使用するスライドフォルダ名を記入
-4. 設定画面を閉じる
+1. 5 + 4 = 9
+2. 10 + 7 = 17
+3. 3 + 8 = 11
+4. 6 + 6 = 12
+
+Các em hãy thử làm theo nhé!
 
 </div>
 <div>
@@ -84,28 +85,32 @@ paginate: true
 
 ---
 
-# スライドの開始
+# Phép trừ là gì?
 
-- スライドが表示されていることを確認
-- 右下のボタンを押して開始
+- Phép trừ là lấy đi một số từ số khác
+- Ví dụ: 7 - 3 = 4
+- Dấu "-" là dấu trừ
+- Kết quả gọi là "hiệu"
 
 <div style="text-align: center;">
-  <img src="/slides/demo/images/start-button.png" alt="開始ボタン" style="height: 300px; margin: 0 auto;">
+  <img src="/slides/demo/images/start-button.png" alt="Ví dụ phép trừ" style="height: 300px; margin: 0 auto;">
 </div>
 
 ---
 
-# 備考
+# Ví dụ về phép trừ
 
-- 停止ボタンで次のスライドに進まない
-- 音声は現在のスライドの説明が終わるまで続く
-- 停止中はチャット欄から質問可能
+- 9 - 5 = 4
+- 15 - 8 = 7
+- 12 - 6 = 6
+- 20 - 10 = 10
+
+Các em hãy tự làm thêm nhiều bài tập nhé!
 
 ---
 
 <!-- _class: end -->
 
-# ご視聴ありがとうございました
+# Cảm ơn các em đã chú ý lắng nghe!
 
-不明点は作者にお問い合わせください！
-X: @tegnike
+Hãy làm bài tập về nhà và đặt câu hỏi nếu có thắc mắc nhé!

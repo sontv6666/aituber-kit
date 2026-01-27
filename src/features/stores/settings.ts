@@ -204,6 +204,7 @@ interface General {
   showPresetQuestions: boolean
   speechRecognitionMode: SpeechRecognitionMode
   whisperTranscriptionModel: WhisperTranscriptionModel
+  voskServerUrl: string
   initialSpeechTimeout: number
   chatLogWidth: number
   imageDisplayPosition: 'input' | 'side' | 'icon'
@@ -394,7 +395,7 @@ const getInitialValuesFromEnv = (): SettingsState => ({
   selectedLive2DPath:
     process.env.NEXT_PUBLIC_SELECTED_LIVE2D_PATH ||
     '/live2d/nike01/nike01.model3.json',
-  fixedCharacterPosition: false,
+  fixedCharacterPosition: true,
   characterPosition: {
     x: 0,
     y: 0,
@@ -474,6 +475,10 @@ const getInitialValuesFromEnv = (): SettingsState => ({
     (process.env
       .NEXT_PUBLIC_WHISPER_TRANSCRIPTION_MODEL as WhisperTranscriptionModel) ||
     'whisper-1',
+  voskServerUrl:
+    process.env.NEXT_PUBLIC_VOSK_SERVER_URL ||
+    process.env.VOSK_SERVER_URL ||
+    'http://localhost:2700',
   initialSpeechTimeout:
     parseFloat(process.env.NEXT_PUBLIC_INITIAL_SPEECH_TIMEOUT || '5.0') || 5.0,
   chatLogWidth:
@@ -777,6 +782,9 @@ const settingsStore = create<SettingsState>()(
       enableMultiModal: state.enableMultiModal,
       colorTheme: state.colorTheme,
       customModel: state.customModel,
+      slideMode: state.slideMode,
+      youtubeMode: state.youtubeMode,
+      conversationContinuityMode: state.conversationContinuityMode,
     }),
   })
 )

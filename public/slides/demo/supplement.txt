@@ -1,97 +1,74 @@
-概要
-以下の3つの機能があります。
-1. AIキャラとの対話
-2. AITuber配信
-3. 外部連携モード（β版）
+Giới thiệu về cô giáo Mây
+Cô giáo Mây là một giáo viên dạy môn Toán nhiệt tình và yêu thương học sinh. Cô có nhiều năm kinh nghiệm trong việc giảng dạy và luôn tìm cách giúp học sinh hiểu bài một cách dễ dàng nhất.
 
-下記の記事に詳細な使用方法を記載しました。
+Phương pháp giảng dạy
+- Cô Mây sử dụng nhiều ví dụ thực tế để học sinh dễ hiểu
+- Cô khuyến khích học sinh đặt câu hỏi và tham gia tích cực trong lớp học
+- Cô tạo không khí học tập vui vẻ, thân thiện
+- Cô luôn kiên nhẫn giải thích cho đến khi học sinh hiểu rõ
 
-共通事前準備
-1. リポジトリをローカルにクローンします。
-   git clone https://github.com/tegnike/aituber-kit.git
-2. フォルダを開きます。
-   cd aituber-kit
-3. パッケージインストールします。
-   npm install
-4. 開発モードでアプリケーションを起動します。
-   npm run dev
-5. URLを開きます。[http://localhost:3000]
+Bài học: Phép cộng và phép trừ
 
-AIキャラとの対話
-- AIキャラと会話する機能です。
-- このリポジトリの元になっている[pixiv/ChatVRM]を拡張した機能です。
-- 各種LLMのAPIキーさえあれば比較的簡単に試すことが可能です。
-- 直近の10会話文を記憶として保持します。（数字は指定できるように更新予定）
-- マルチモーダルで、カメラからの映像やアップロードした画像を認識して回答を生成することが可能です。
+Phép cộng
+Phép cộng là một trong những phép toán cơ bản nhất trong toán học. Phép cộng giúp chúng ta gộp các số lại với nhau.
 
-使用方法
-1. 設定画面で各種LLMのAPIキーを入力します。
-   - OpenAI
-   - Anthropic
-   - Google Gemini
-   - Groq
-   - ローカルLLM（APIキーは不要ですが、ローカルAPIサーバーを起動しておく必要があります。）
-   - Dify Chatbot（APIキーは不要ですが、ローカルAPIサーバーを起動しておく必要があります。）
-2. 必要に応じてキャラクターの設定プロンプトを編集します。
-3. 必要に応じてVRMファイルを読み込みます。
-4. 音声合成エンジンを選択し、必要に応じて声の設定を行います。
-   - VOICEVOXの場合は複数の選択肢から話者を選ぶことができます。予めVOICEVOXアプリを起動しておく必要があります。
-   - Koeiromapの場合は、細かく音声を調整することが可能です。APIキーの入力が必要です。
-   - Google Text-to-Speechの場合は日本語以外の言語も選択可能です。credential情報が必要です。
-   - Style-Bert-VITS2は、ローカルAPIサーバーを起動しておく必要があります。
-   - GSVI TTSは、ローカルAPIサーバーを起動しておく必要があります。
-   - ElevenLabsは様々な言語の選択が可能です。APIキーを入力してください。
-5. 入力フォームからキャラクターと会話を開始します。マイク入力も可能。
+Khái niệm:
+- Phép cộng là gộp các số lại với nhau
+- Dấu cộng là dấu "+"
+- Kết quả của phép cộng gọi là "tổng"
 
-AITuber配信
-- Youtubeの配信コメントを取得して発言することが可能です。
-- Youtube APIキーが必要です。
-- 「#」から始まるコメントは読まれません。（文字列は指定できるように更新予定）
+Ví dụ:
+- 2 + 3 = 5 (hai cộng ba bằng năm)
+- 5 + 4 = 9 (năm cộng bốn bằng chín)
+- 10 + 7 = 17 (mười cộng bảy bằng mười bảy)
 
-使用方法
-1. 設定画面でYoutubeモードをONにします。
-2. Youtube APIキーとYoutube Live IDを入力します。
-3. 他の設定は「AIキャラとの対話」と同様に行います。
-4. Youtubeの配信を開始し、キャラクターがコメントに反応するのを確認します。
-5. 会話継続モードをONにすると、コメントが無いときにAIが自ら発言することができます。
+Ứng dụng thực tế:
+- Đếm số lượng đồ vật
+- Tính tổng tiền mua hàng
+- Tính tổng điểm trong các môn học
 
-外部連携モード
-- WebSocketでサーバーアプリにメッセージを送信して、レスポンスを取得することができます。
-- 上記2つと異なり、フロントアプリで完結しないため少し難易度が高いです。
-- ⚠ メンテナンスできていないため、動かない可能性があります。
+Phép trừ
+Phép trừ là phép toán ngược lại với phép cộng. Phép trừ giúp chúng ta tìm số còn lại sau khi lấy đi một số từ số ban đầu.
 
-使用方法
-1. サーバーアプリを起動し、ws://127.0.0.1:8000/ws エンドポイントを開きます。
-2. 設定画面で外部連携モードをONにします。
-3. 他の設定は「AIキャラとの対話」と同様に行います。
-4. サーバーアプリからのメッセージを待ち、キャラクターが反応するのを確認します。
+Khái niệm:
+- Phép trừ là lấy đi một số từ số khác
+- Dấu trừ là dấu "-"
+- Kết quả của phép trừ gọi là "hiệu"
 
-関連
-- 私が作成したサーバーアプリのリポジトリで試すことが可能です。[tegnike/aituber-server]
-- 詳しい設定は「[美少女と一緒に開発しようぜ！！【Open Interpreter】]」を読んでください。
+Ví dụ:
+- 7 - 3 = 4 (bảy trừ ba bằng bốn)
+- 9 - 5 = 4 (chín trừ năm bằng bốn)
+- 15 - 8 = 7 (mười lăm trừ tám bằng bảy)
 
-TIPS
-VRMモデル、背景固定方法
-- VRMモデルは public/AvatarSample_B.vrm のデータを変更してください。名称は変更しないでください。
-- 背景画像は public/backgrounds/bg-c.png の画像を変更してください。名称は変更しないでください。
+Ứng dụng thực tế:
+- Tính số tiền còn lại sau khi mua hàng
+- Tính số đồ vật còn lại sau khi cho đi
+- Tính thời gian còn lại
 
-環境変数の設定
-- 一部の設定値は .env ファイルの内容を参照することができます。
-- 設定画面で入力した場合は、その値が優先されます。
+Mối quan hệ giữa phép cộng và phép trừ
+Phép cộng và phép trừ có mối quan hệ chặt chẽ với nhau:
+- Nếu 2 + 3 = 5, thì 5 - 3 = 2 và 5 - 2 = 3
+- Phép trừ là phép toán ngược của phép cộng
+- Hiểu rõ mối quan hệ này giúp học sinh kiểm tra lại kết quả
 
-その他
-- 会話履歴は設定画面でリセットすることができます。
-- 各種設定項目はブラウザに保存されます。
-- コードブロックで囲まれた要素はTTSで読まれません。
+Bài tập thực hành
+Để thành thạo phép cộng và phép trừ, học sinh nên:
+1. Làm nhiều bài tập từ dễ đến khó
+2. Sử dụng các vật dụng thực tế để minh họa (như kẹo, bút, v.v.)
+3. Tự đặt ra các bài toán và giải chúng
+4. Kiểm tra lại kết quả bằng cách làm ngược lại
 
-スポンサー募集
-開発を継続するためにスポンサーの方を募集しています。
-あなたの支援は、AITuberキットの開発と改善に大きく貢献します。
+Lưu ý cho học sinh
+- Hãy đọc kỹ đề bài trước khi làm
+- Kiểm tra lại kết quả sau khi làm xong
+- Đừng ngại hỏi cô giáo nếu có thắc mắc
+- Luyện tập thường xuyên để ghi nhớ lâu hơn
 
-協力者の皆様（ご支援いただいた順）
-他、プライベートスポンサー 複数名
+Tips học toán hiệu quả
+1. Học đều đặn mỗi ngày, không nên học dồn
+2. Làm bài tập ngay sau khi học lý thuyết
+3. Sử dụng sơ đồ, hình vẽ để minh họa
+4. Học nhóm với bạn bè để trao đổi kiến thức
+5. Luôn giữ tinh thần tích cực và tự tin
 
-利用規約
-- ライセンスは [pixiv/ChatVRM] に準拠し、MITライセンスとしています。
-- ロゴの利用規約
-- VRMモデルの利用規約
+Cô giáo Mây luôn sẵn sàng hỗ trợ học sinh trong việc học tập. Các em có thể đặt câu hỏi bất cứ lúc nào và cô sẽ giải thích một cách chi tiết và dễ hiểu nhất.

@@ -4,6 +4,7 @@ import homeStore from '@/features/stores/home'
 import { SpeakQueue } from '@/features/messages/speakQueue'
 import { useBrowserSpeechRecognition } from './useBrowserSpeechRecognition'
 import { useWhisperRecognition } from './useWhisperRecognition'
+import { useVoskRecognition } from './useVoskRecognition'
 import { useRealtimeVoiceAPI } from './useRealtimeVoiceAPI'
 
 type UseVoiceRecognitionProps = {
@@ -31,6 +32,9 @@ export const useVoiceRecognition = ({
   // Whisper音声認識フック
   const whisperSpeech = useWhisperRecognition(onChatProcessStart)
 
+  // Vosk音声認識フック（ベトナム語専用）
+  const voskSpeech = useVoskRecognition(onChatProcessStart)
+
   // リアルタイムAPI処理フック
   const realtimeAPI = useRealtimeVoiceAPI(onChatProcessStart)
 
@@ -40,7 +44,9 @@ export const useVoiceRecognition = ({
       ? realtimeAPIMode
         ? realtimeAPI
         : browserSpeech
-      : whisperSpeech
+      : speechRecognitionMode === 'vosk'
+        ? voskSpeech
+        : whisperSpeech
 
   // ----- 音声停止 -----
   const handleStopSpeaking = useCallback(() => {

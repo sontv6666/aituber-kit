@@ -49,6 +49,13 @@ export const Menu = () => {
   const youtubePlaying = settingsStore((s) => s.youtubePlaying)
   const slideMode = settingsStore((s) => s.slideMode)
   const slideVisible = menuStore((s) => s.slideVisible)
+
+  // Slide modeが有効になったら、slideVisibleも自動的に有効にする
+  useEffect(() => {
+    if (slideMode && !slideVisible) {
+      menuStore.setState({ slideVisible: true })
+    }
+  }, [slideMode, slideVisible])
   const chatLog = homeStore((s) => s.chatLog)
   const showWebcam = menuStore((s) => s.showWebcam)
   const showControlPanel = settingsStore((s) => s.showControlPanel)

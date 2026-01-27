@@ -71,6 +71,17 @@ const Slide = () => {
       </div>
       <div className="mb-4 text-xl font-bold">{t('SlideMode')}</div>
       <p className="">{t('SlideModeDescription')}</p>
+      {!isMultiModalAvailable(
+        selectAIService,
+        selectAIModel,
+        enableMultiModal,
+        multiModalMode,
+        customModel
+      ) && (
+        <p className="my-2 text-sm text-yellow-600">
+          {t('SlideModeUnavailable') || 'Chế độ slide chỉ khả dụng khi mô hình hỗ trợ đa phương thức được chọn và bật.'}
+        </p>
+      )}
       <div className="my-2">
         <TextButton
           onClick={toggleSlideMode}
