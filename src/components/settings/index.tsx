@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import menuStore from '@/features/stores/menu'
 
-import { GitHubLink } from '../githubLink'
 import { IconButton } from '../iconButton'
 import Image from 'next/image'
 import Description from './description'
@@ -34,7 +33,6 @@ export default Settings
 const Header = ({ onClickClose }: Pick<Props, 'onClickClose'>) => {
   return (
     <>
-      <GitHubLink />
       <div className="absolute m-6 z-15">
         <IconButton
           iconName="24/Close"

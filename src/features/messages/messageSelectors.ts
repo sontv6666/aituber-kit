@@ -37,7 +37,7 @@ export const messageSelectors = {
     includeTimestamp: boolean
   ): Message[] => {
     const maxPastMessages = settingsStore.getState().maxPastMessages
-    return messages
+    const processedMessages = messages
       .map((message, index) => {
         // 最後のメッセージだけそのまま利用する（= 最後のメッセージだけマルチモーダルの対象となる）
         const isLastMessage = index === messages.length - 1
@@ -67,7 +67,19 @@ export const messageSelectors = {
           content,
         }
       })
-      .slice(-maxPastMessages)
+
+    let startIndex = Math.max(0, processedMessages.length - maxPastMessages)
+
+    // assistantから始まる切り取りを避け、直前のuserを含めてQ/Aの連続性を上げる
+    if (
+      startIndex > 0 &&
+      processedMessages[startIndex]?.role === 'assistant' &&
+      processedMessages[startIndex - 1]?.role === 'user'
+    ) {
+      startIndex -= 1
+    }
+
+    return processedMessages.slice(startIndex)
   },
 
   // メッセージを正規化して、連続する同一メッセージを統合

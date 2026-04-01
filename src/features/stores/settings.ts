@@ -499,7 +499,7 @@ const getInitialValuesFromEnv = (): SettingsState => ({
   })(),
   multiModalAiDecisionPrompt:
     process.env.NEXT_PUBLIC_MULTIMODAL_AI_DECISION_PROMPT ||
-    'あなたは画像がユーザーの質問や会話の文脈に関連するかどうかを判断するアシスタントです。直近の会話履歴とユーザーメッセージを考慮して、「はい」または「いいえ」のみで答えてください。',
+    'Bạn là trợ lý đánh giá xem hình ảnh có liên quan đến câu hỏi hoặc ngữ cảnh hội thoại của người dùng hay không. Cân nhắc lịch sử hội thoại gần đây và tin nhắn người dùng, chỉ trả lời "Có" hoặc "Không".',
   enableMultiModal: process.env.NEXT_PUBLIC_ENABLE_MULTIMODAL !== 'false',
   colorTheme:
     (process.env.NEXT_PUBLIC_COLOR_THEME as

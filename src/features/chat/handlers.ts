@@ -1,5 +1,9 @@
 import { getAIChatResponseStream } from '@/features/chat/aiChatFactory'
-import { Message, EmotionType } from '@/features/messages/messages'
+import {
+  Message,
+  EmotionType,
+  normalizeEmotionTag,
+} from '@/features/messages/messages'
 import { speakCharacter } from '@/features/messages/speakCharacter'
 import { judgeSlide } from '@/features/slide/slideAIHelpers'
 import homeStore from '@/features/stores/home'
@@ -18,6 +22,25 @@ const generateSessionId = () => generateMessageId()
 
 // コードブロックのデリミネーター
 const CODE_DELIMITER = '```'
+
+const EMOTION_TAG_PATTERN = /\[\{?[a-zA-Z_]+\}?\]/g
+
+const sanitizeAssistantTextForDisplay = (text: string): string =>
+  text
+    .replace(EMOTION_TAG_PATTERN, '')
+    .replace(/\[\/?MATH_PROBLEM\]/gi, '')
+    // Remove plain emotion tokens when model outputs without brackets.
+    .replace(/\b(netural|neutral|happy|angry|sad|relaxed|surprised)\b/gi, '')
+    // Remove legacy wrapper format like "{Con chao}" produced by old prompts.
+    .replace(/\{\s*([^{}]+?)\s*\}/g, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+
+const normalizeTeacherPronouns = (text: string): string =>
+  text
+    .replace(/\bmình\b/gi, 'Cô')
+    .replace(/\bbạn\b/gi, 'Con')
+    .replace(/\btớ\b/gi, 'Cô')
 
 /**
  * AI判断機能でマルチモーダルを使用するかどうかを決定する
@@ -121,18 +144,24 @@ const askAIForMultiModalDecision = async (
 const extractEmotion = (
   text: string
 ): { emotionTag: string; remainingText: string } => {
-  // 先頭のスペースを無視して、感情タグを検出
-  const emotionMatch = text.match(/^\s*\[(.*?)\]/)
-  if (emotionMatch?.[0]) {
-    return {
-      emotionTag: emotionMatch[0].trim(), // タグ自体の前後のスペースは除去
-      // 先頭のスペースも含めて削除し、さらに前後のスペースを除去
-      remainingText: text
-        .slice(text.indexOf(emotionMatch[0]) + emotionMatch[0].length)
-        .trimStart(),
-    }
+  // 先頭に連続する感情タグをすべて取得し、最後の有効タグを採用する
+  const leadingTags = text.match(/^\s*(\[\{?[^\]}]+\}?\]\s*)+/)
+  if (!leadingTags?.[0]) {
+    return { emotionTag: '', remainingText: text }
   }
-  return { emotionTag: '', remainingText: text }
+
+  const tags = leadingTags[0].match(/\[\{?[^\]}]+\}?\]/g) ?? []
+  let finalEmotion: EmotionType = 'neutral'
+
+  for (const tag of tags) {
+    const tagName = tag.slice(1, -1).replace(/[{}]/g, '')
+    finalEmotion = normalizeEmotionTag(tagName)
+  }
+
+  return {
+    emotionTag: `[${finalEmotion}]`,
+    remainingText: text.slice(leadingTags[0].length).trimStart(),
+  }
 }
 
 /**
@@ -172,7 +201,7 @@ const handleSpeakAndStateUpdate = (
 ) => {
   const hs = homeStore.getState()
   const emotion = emotionTag.includes('[')
-    ? (emotionTag.slice(1, -1).toLowerCase() as EmotionType)
+    ? normalizeEmotionTag(emotionTag.slice(1, -1))
     : 'neutral'
 
   // 発話不要/不可能な文字列だった場合はスキップ
@@ -234,10 +263,13 @@ export const speakMessageHandler = async (receivedMessage: string) => {
         isCodeBlock = false
 
         if (accumulatedAssistantText.trim()) {
+          const displayText = normalizeTeacherPronouns(
+            sanitizeAssistantTextForDisplay(accumulatedAssistantText.trim())
+          )
           homeStore.getState().upsertMessage({
             id: currentMessageId,
             role: 'assistant',
-            content: accumulatedAssistantText.trim(),
+            content: displayText,
           })
           accumulatedAssistantText = ''
         }
@@ -283,7 +315,7 @@ export const speakMessageHandler = async (receivedMessage: string) => {
 
         if (sentence) {
           assistantMessageListRef.current.push(sentence)
-          const aiText = emotionTag ? `${emotionTag} ${sentence}` : sentence
+          const aiText = sentence
           accumulatedAssistantText += aiText + ' '
           handleSpeakAndStateUpdate(
             sessionId,
@@ -297,9 +329,7 @@ export const speakMessageHandler = async (receivedMessage: string) => {
           if (localRemaining === prevLocalRemaining && localRemaining) {
             const finalSentence = localRemaining
             assistantMessageListRef.current.push(finalSentence)
-            const aiText = emotionTag
-              ? `${emotionTag} ${finalSentence}`
-              : finalSentence
+            const aiText = finalSentence
             accumulatedAssistantText += aiText + ' '
             handleSpeakAndStateUpdate(
               sessionId,
@@ -339,10 +369,13 @@ export const speakMessageHandler = async (receivedMessage: string) => {
 
     if (isCodeBlock && codeBlockContent) {
       if (accumulatedAssistantText.trim()) {
+        const displayText = normalizeTeacherPronouns(
+          sanitizeAssistantTextForDisplay(accumulatedAssistantText.trim())
+        )
         homeStore.getState().upsertMessage({
           id: currentMessageId,
           role: 'assistant',
-          content: accumulatedAssistantText.trim(),
+          content: displayText,
         })
         accumulatedAssistantText = ''
       }
@@ -352,10 +385,13 @@ export const speakMessageHandler = async (receivedMessage: string) => {
   }
 
   if (accumulatedAssistantText.trim()) {
+    const displayText = normalizeTeacherPronouns(
+      sanitizeAssistantTextForDisplay(accumulatedAssistantText.trim())
+    )
     homeStore.getState().upsertMessage({
       id: currentMessageId,
       role: 'assistant',
-      content: accumulatedAssistantText.trim(),
+      content: displayText,
     })
   }
   if (isCodeBlock && codeBlockContent.trim()) {
@@ -418,20 +454,26 @@ export const processAIResponse = async (messages: Message[]) => {
           currentMessageId = generateMessageId()
           currentMessageContent = textToAdd
           if (currentMessageContent) {
+            const displayText = normalizeTeacherPronouns(
+              sanitizeAssistantTextForDisplay(currentMessageContent)
+            )
             homeStore.getState().upsertMessage({
               id: currentMessageId,
               role: 'assistant',
-              content: currentMessageContent,
+              content: displayText,
             })
           }
         } else if (!isCodeBlock) {
           currentMessageContent += textToAdd
 
           if (textToAdd) {
+            const displayText = normalizeTeacherPronouns(
+              sanitizeAssistantTextForDisplay(currentMessageContent)
+            )
             homeStore.getState().upsertMessage({
               id: currentMessageId,
               role: 'assistant',
-              content: currentMessageContent,
+              content: displayText,
             })
           }
         }
@@ -650,10 +692,13 @@ export const processAIResponse = async (messages: Message[]) => {
   })
 
   if (currentMessageContent.trim()) {
+    const displayText = normalizeTeacherPronouns(
+      sanitizeAssistantTextForDisplay(currentMessageContent.trim())
+    )
     homeStore.getState().upsertMessage({
       id: currentMessageId ?? generateMessageId(),
       role: 'assistant',
-      content: currentMessageContent.trim(),
+      content: displayText,
     })
   }
   if (isCodeBlock && codeBlockContent.trim()) {
@@ -824,17 +869,44 @@ export const handleSendChatFn = () => async (text: string) => {
     }
 
     const currentChatLog = homeStore.getState().chatLog
+    const latestMathProblem = homeStore
+      .getState()
+      .mathProblems.filter((problem) => problem.source === 'assistant')
+      .at(-1)
+
+    const continuityMessages: Message[] = latestMathProblem
+      ? [
+          {
+            role: 'system',
+            content:
+              'Bối cảnh liên tục hội thoại: Đây là đề toán gần nhất bạn đã giao cho học sinh. Khi học sinh trả lời, hãy ưu tiên kiểm tra câu trả lời theo đúng đề này trước khi chuyển chủ đề.\n' +
+              `Đề gần nhất: ${latestMathProblem.problem}`,
+          },
+        ]
+      : []
 
     const messages: Message[] = [
       {
         role: 'system',
         content: systemPrompt,
       },
+      ...continuityMessages,
       ...messageSelectors.getProcessedMessages(
         currentChatLog,
         ss.includeTimestampInUserMessage
       ),
     ]
+
+    if (process.env.NEXT_PUBLIC_DEBUG_CHAT_CONTEXT === 'true') {
+      const safePreview = messages.map((msg) => ({
+        role: msg.role,
+        content:
+          typeof msg.content === 'string'
+            ? msg.content.slice(0, 120)
+            : '[multimodal]',
+      }))
+      console.log('Chat context preview:', safePreview)
+    }
 
     try {
       await processAIResponse(messages)

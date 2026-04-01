@@ -8,6 +8,7 @@ import { synthesizeVoiceKoeiromapApi } from './synthesizeVoiceKoeiromap'
 import { synthesizeVoiceElevenlabsApi } from './synthesizeVoiceElevenlabs'
 import { synthesizeVoiceCartesiaApi } from './synthesizeVoiceCartesia'
 import { synthesizeVoiceGoogleApi } from './synthesizeVoiceGoogle'
+import { synthesizeVoiceGoogleTranslateApi } from './synthesizeVoiceGoogleTranslate'
 import { synthesizeVoiceVoicevoxApi } from './synthesizeVoiceVoicevox'
 import { synthesizeVoiceAivisSpeechApi } from './synthesizeVoiceAivisSpeech'
 import { synthesizeVoiceAivisCloudApi } from './synthesizeVoiceAivisCloudApi'
@@ -100,6 +101,8 @@ async function synthesizeVoice(
           ss.googleTtsType,
           ss.selectLanguage
         )
+      case 'google_translate':
+        return await synthesizeVoiceGoogleTranslateApi(talk, ss.selectLanguage)
       case 'stylebertvits2':
         return await synthesizeStyleBertVITS2Api(
           talk,
@@ -394,6 +397,7 @@ export const testVoice = async (voiceType: AIVoice, customText?: string) => {
     aivis_cloud_api: 'Aivis Cloud APIを使用します',
     koeiromap: 'コエイロマップを使用します',
     google: 'Google Text-to-Speechを使用します',
+    google_translate: 'Google Translate TTSを使用します',
     stylebertvits2: 'StyleBertVITS2を使用します',
     gsvitts: 'GSVI TTSを使用します',
     elevenlabs: 'ElevenLabsを使用します',

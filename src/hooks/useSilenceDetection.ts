@@ -22,6 +22,12 @@ export const useSilenceDetection = ({
   >(null)
   const { t } = useTranslation()
 
+  // コールバックをrefで保持し、useEffectの依存関係の変化による無限ループを防ぐ
+  const onTextDetectedRef = useRef(onTextDetected)
+  const setUserMessageRef = useRef(setUserMessage)
+  onTextDetectedRef.current = onTextDetected
+  setUserMessageRef.current = setUserMessage
+
   // 無音検出用の追加変数
   const lastSpeechTimestamp = useRef<number>(0)
   const silenceCheckInterval = useRef<NodeJS.Timeout | null>(null)
@@ -142,8 +148,8 @@ export const useSilenceDetection = ({
             setSilenceTimeoutRemaining(null)
             console.log('✅ 無音検出による自動送信を実行します')
             // 無音検出で自動送信
-            onTextDetected(trimmedTranscript)
-            setUserMessage('')
+            onTextDetectedRef.current(trimmedTranscript)
+            setUserMessageRef.current('')
 
             // stopListeningFnを非同期で呼び出し
             try {
@@ -171,7 +177,7 @@ export const useSilenceDetection = ({
         }
       }, 100) // 100msごとにチェック
     },
-    [onTextDetected, setUserMessage, speechDetectedRef, t]
+    [t]
   )
 
   // 音声検出時刻を更新する関数

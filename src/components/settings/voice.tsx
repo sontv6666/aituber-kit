@@ -211,6 +211,7 @@ const Voice = () => {
           <option value="voicevox">{t('UsingVoiceVox')}</option>
           <option value="koeiromap">{t('UsingKoeiromap')}</option>
           <option value="google">{t('UsingGoogleTTS')}</option>
+          <option value="google_translate">{t('UsingGoogleTranslateTTS')}</option>
           <option value="stylebertvits2">{t('UsingStyleBertVITS2')}</option>
           <option value="aivis_speech">{t('UsingAivisSpeech')}</option>
           <option value="aivis_cloud_api">{t('UsingAivisCloudAPI')}</option>
@@ -465,6 +466,19 @@ const Voice = () => {
                     onChange={(e) =>
                       settingsStore.setState({ googleTtsType: e.target.value })
                     }
+                  />
+                </div>
+              </>
+            )
+          } else if (selectVoice === 'google_translate') {
+            return (
+              <>
+                <div>
+                  {t('GoogleTranslateTTSInfo')}
+                  <br />
+                  <Link
+                    url="https://translate.google.com/"
+                    label="https://translate.google.com/"
                   />
                 </div>
               </>

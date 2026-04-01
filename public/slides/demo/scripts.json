@@ -1,42 +1,27 @@
 [
   {
     "page": 0,
-    "line": "Xin chào các em học sinh thân yêu! Cô là cô giáo Mây, giáo viên dạy môn Toán. Hôm nay cô rất vui được gặp các em trong lớp học này. Các em hãy chuẩn bị sách vở và cùng cô học bài nhé!",
-    "notes": "Cô giáo Mây là một giáo viên nhiệt tình, yêu thương học sinh, luôn tạo không khí vui vẻ trong lớp học."
+    "line": "Chào các con! Hôm nay chúng mình sẽ cùng nhau khám phá những \"gia đình\" số lớn hơn nhé. Các con nhìn xem, bạn nhỏ đang có những thanh sô-cô-la rất ngon. Một miếng nhỏ là 1 đơn vị, nhưng khi ghép 10 miếng lại, chúng ta có 1 chục đấy!",
+    "notes": "Tiêu đề: BÀI 48: ĐƠN VỊ - CHỤC - TRĂM - NGHÌN. Hình minh họa gồm 1 khối lẻ (1 đơn vị) và 1 thanh 10 khối (1 chục)."
   },
   {
     "page": 1,
-    "line": "Để các em hiểu rõ hơn về cô, cô xin tự giới thiệu. Cô Mây là giáo viên chuyên dạy môn Toán. Cô đã có nhiều năm kinh nghiệm giảng dạy và rất yêu thích việc giúp các em học tốt môn Toán. Cô sẽ cố gắng giải thích mọi thứ một cách dễ hiểu nhất. Nếu các em có bất kỳ câu hỏi nào, đừng ngại hỏi cô nhé!",
-    "notes": "Cô giáo Mây luôn khuyến khích học sinh đặt câu hỏi và tạo môi trường học tập thân thiện."
+    "line": "Các con cùng đếm với cô nhé! 1 đơn vị, 2 đơn vị... đến 10 đơn vị thì ta gọi đó là 1 chục. Tương tự, nếu có 2 thanh ta có 20 (hai chục), 3 thanh là 30 (ba chục). Vậy nếu có 10 thanh chục thì sao nhỉ? Chúng mình cùng xem slide tiếp theo nhé!",
+    "notes": "Bảng quy đổi: 10 đơn vị = 1 chục. Ví dụ số: 10, 20, 30, 40..."
   },
   {
     "page": 2,
-    "line": "Hôm nay chúng ta sẽ học về phép cộng và phép trừ - những kiến thức toán học cơ bản và rất quan trọng. Trong bài học này, cô sẽ dạy các em về phép cộng cơ bản, phép trừ cơ bản, và đưa ra các ví dụ thực tế để các em dễ hiểu hơn. Các em hãy chú ý lắng nghe nhé!",
-    "notes": "Phép cộng và phép trừ là nền tảng của toán học, học sinh cần nắm vững để học các kiến thức cao hơn."
+    "line": "Khi chúng ta ghép 10 thanh chục lại với nhau, chúng ta sẽ được một tấm bảng lớn gọi là 1 trăm. Một tấm là 100, hai tấm là 200. Các con thấy \"gia đình\" số của chúng ta đang lớn dần lên rồi đúng không nào?",
+    "notes": "Công thức: 10 chục = 1 trăm. Hình minh họa: 1 tấm (100), 2 tấm (200), 3 tấm (300)."
   },
   {
     "page": 3,
-    "line": "Đầu tiên, chúng ta sẽ học về phép cộng. Phép cộng là gộp các số lại với nhau. Ví dụ như khi các em có 2 cái kẹo, sau đó được thêm 3 cái kẹo nữa, thì các em sẽ có tổng cộng 5 cái kẹo. Dấu cộng là dấu cộng, và kết quả chúng ta gọi là tổng. Các em hiểu chưa?",
-    "notes": "Phép cộng giúp học sinh hiểu khái niệm gộp các nhóm lại với nhau, là kỹ năng cơ bản trong cuộc sống hàng ngày."
+    "line": "Bây giờ là thử thách lớn nhất đây! Nếu cô có tận 10 tấm thẻ 100 như thế này, chúng ta sẽ có số 1 nghìn. Đây là một số rất lớn và có tận 3 chữ số 0 đứng sau chữ số 1 đấy các con ạ!",
+    "notes": "Dòng chữ nổi bật: 10 trăm = 1 nghìn. Số hiển thị: 1 000."
   },
   {
     "page": 4,
-    "line": "Bây giờ cô sẽ đưa ra một số ví dụ về phép cộng để các em luyện tập. Ví dụ thứ nhất: 5 cộng 4 bằng 9. Ví dụ thứ hai: 10 cộng 7 bằng 17. Ví dụ thứ ba: 3 cộng 8 bằng 11. Ví dụ thứ tư: 6 cộng 6 bằng 12. Các em hãy thử làm theo và tự đặt thêm ví dụ khác nhé!",
-    "notes": "Luyện tập nhiều ví dụ giúp học sinh ghi nhớ và thành thạo phép cộng."
-  },
-  {
-    "page": 5,
-    "line": "Tiếp theo, chúng ta sẽ học về phép trừ. Phép trừ là lấy đi một số từ số khác. Ví dụ như các em có 7 cái kẹo, sau đó cho bạn 3 cái, thì các em còn lại 4 cái kẹo. Dấu trừ là dấu trừ, và kết quả chúng ta gọi là hiệu. Phép trừ ngược lại với phép cộng các em nhé!",
-    "notes": "Phép trừ giúp học sinh hiểu khái niệm tách, lấy đi, là kỹ năng quan trọng trong toán học và cuộc sống."
-  },
-  {
-    "page": 6,
-    "line": "Bây giờ cô sẽ đưa ra một số ví dụ về phép trừ. Ví dụ thứ nhất: 9 trừ 5 bằng 4. Ví dụ thứ hai: 15 trừ 8 bằng 7. Ví dụ thứ ba: 12 trừ 6 bằng 6. Ví dụ thứ tư: 20 trừ 10 bằng 10. Các em hãy tự làm thêm nhiều bài tập để thành thạo phép trừ nhé!",
-    "notes": "Thực hành nhiều bài tập phép trừ giúp học sinh nắm vững kiến thức và tự tin hơn."
-  },
-  {
-    "page": 7,
-    "line": "Cảm ơn các em đã chú ý lắng nghe bài học hôm nay! Cô hy vọng các em đã hiểu về phép cộng và phép trừ. Các em hãy nhớ làm bài tập về nhà và luyện tập thêm nhé. Nếu có bất kỳ câu hỏi nào, các em có thể hỏi cô bất cứ lúc nào. Chúc các em học tốt!",
-    "notes": "Cô giáo Mây luôn sẵn sàng hỗ trợ học sinh và khuyến khích các em học tập chăm chỉ."
+    "line": "Để thưởng cho cả lớp, chúng mình cùng chơi trò \"Đi chợ\" nhé! Ở hình a, mỗi khay có 10 chiếc bánh, vậy 2 khay là bao nhiêu cái nhỉ? (Đợi trẻ trả lời: 20). Đúng rồi! Thế còn hình b có tận 10 khay, vậy chúng mình có tất cả bao nhiêu chiếc bánh nào? Chính xác, là 100 chiếc bánh!",
+    "notes": "Câu hỏi: Có bao nhiêu khay bánh? Có tất cả bao nhiêu chiếc bánh? Hình a: 2 khay (mỗi khay 10 cái). Hình b: 10 khay."
   }
 ]

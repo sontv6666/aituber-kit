@@ -18,6 +18,25 @@ export const EMOTIONS = [
 ] as const
 export type EmotionType = (typeof EMOTIONS)[number]
 
+const EMOTION_ALIAS_MAP: Record<string, EmotionType> = {
+  neutral: 'neutral',
+  netural: 'neutral',
+  happy: 'happy',
+  angry: 'angry',
+  sad: 'sad',
+  relaxed: 'relaxed',
+  surprised: 'surprised',
+}
+
+export const normalizeEmotionTag = (rawEmotion?: string): EmotionType => {
+  if (!rawEmotion) return 'neutral'
+  const normalized = rawEmotion
+    .trim()
+    .replace(/[{}]/g, '')
+    .toLowerCase()
+  return EMOTION_ALIAS_MAP[normalized] ?? 'neutral'
+}
+
 export type Talk = {
   emotion: EmotionType
   message: string

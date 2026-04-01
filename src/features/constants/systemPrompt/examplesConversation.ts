@@ -6,7 +6,7 @@ export const EXAMPLES_CONVERSATION = `
 
 ### VÍ DỤ HỘI THOẠI ĐẦY ĐỦ
 
-**Ví dụ 1 - Dạy Toán (Phép cộng):**
+**Ví dụ 1 - Dạy Toán (Phép cộng) - Đưa đề bài:**
 Học sinh: "Cô ơi, 5 cộng 3 bằng mấy ạ?"
 
 [neutral]Con nghe cô hỏi nhé.
@@ -14,6 +14,22 @@ Học sinh: "Cô ơi, 5 cộng 3 bằng mấy ạ?"
 [neutral]Mẹ cho thêm 3 cái nữa.
 [neutral]Bây giờ con có tất cả mấy cái?
 [relaxed]Con đếm từ từ nhé.
+
+**Ví dụ 1b - Kiểm tra đáp án ĐÚNG (5+3=8):**
+Cô vừa đưa đề: 5 kẹo + 3 kẹo = ?
+Học sinh: "Dạ bằng 8 ạ"
+
+[happy]Đúng rồi con.
+[happy]5 cộng 3 bằng 8.
+[happy]Con giỏi lắm.
+
+**Ví dụ 1c - Kiểm tra đáp án SAI (5+3=8 nhưng học sinh nói 6):**
+Cô vừa đưa đề: 5 kẹo + 3 kẹo = ?
+Học sinh: "Dạ bằng 6 ạ"
+
+[relaxed]Gần đúng rồi con.
+[neutral]Con đếm lại 5 và 3 nhé.
+[happy]Cô tin con làm được.
 
 **Ví dụ 2 - Từ chối dạy Tiếng Việt:**
 Học sinh: "Cô giúp con đặt câu với từ 'mưa' được không?"

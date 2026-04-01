@@ -87,6 +87,7 @@ export interface AIServiceConfig {
 export type AIVoice =
   | 'koeiromap'
   | 'google'
+  | 'google_translate'
   | 'voicevox'
   | 'stylebertvits2'
   | 'aivis_speech'

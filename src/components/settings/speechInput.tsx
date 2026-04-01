@@ -184,7 +184,7 @@ const SpeechInput = () => {
             </div>
             <div className="mt-6 font-bold">
               <div className="select-none">
-                {t('InitialSpeechTimeout')}: {initialSpeechTimeout.toFixed(1)}秒
+                {t('InitialSpeechTimeout')}: {initialSpeechTimeout.toFixed(1)} {t('Seconds')}
               </div>
               <input
                 type="range"
@@ -208,7 +208,7 @@ const SpeechInput = () => {
             </div>
             <div className="mt-6 font-bold">
               <div className="select-none">
-                {t('NoSpeechTimeout')}: {noSpeechTimeout.toFixed(1)}秒
+                {t('NoSpeechTimeout')}: {noSpeechTimeout.toFixed(1)} {t('Seconds')}
               </div>
               <input
                 type="range"
