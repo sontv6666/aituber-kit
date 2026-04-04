@@ -236,7 +236,7 @@ export class Viewer {
           )
           this._cameraControls.target.set(headWPos.x, headWPos.y, headWPos.z)
           this._cameraControls.update()
-          
+
           // Save the reset position so it's fixed
           settingsStore.setState({
             characterPosition: {

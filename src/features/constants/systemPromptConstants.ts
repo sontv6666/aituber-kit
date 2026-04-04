@@ -2,10 +2,10 @@
  * System Prompt Constants
  * Re-export từ module systemPrompt để tương thích với code cũ
  */
-export { 
-  SYSTEM_PROMPT, 
-  getFullSystemPrompt, 
-  getCompactSystemPrompt, 
+export {
+  SYSTEM_PROMPT,
+  getFullSystemPrompt,
+  getCompactSystemPrompt,
   getCustomSystemPrompt,
   CORE_PROMPT,
   EXAMPLES_CONVERSATION,

@@ -248,9 +248,13 @@ export const useRealtimeVoiceAPI = (
     }
 
     if (!recognition) {
-      console.error('❌ SpeechRecognition is not initialized yet. Please wait a moment and try again.')
+      console.error(
+        '❌ SpeechRecognition is not initialized yet. Please wait a moment and try again.'
+      )
       toastStore.getState().addToast({
-        message: t('Toasts.SpeechRecognitionNotSupported') || 'Speech recognition is not ready. Please refresh the page.',
+        message:
+          t('Toasts.SpeechRecognitionNotSupported') ||
+          'Speech recognition is not ready. Please refresh the page.',
         type: 'error',
         tag: 'speech-recognition-not-initialized',
       })
@@ -258,7 +262,9 @@ export const useRealtimeVoiceAPI = (
     }
 
     if (!audioContext) {
-      console.error('❌ AudioContext is not initialized yet. Please wait a moment and try again.')
+      console.error(
+        '❌ AudioContext is not initialized yet. Please wait a moment and try again.'
+      )
       return
     }
 
@@ -418,7 +424,12 @@ export const useRealtimeVoiceAPI = (
       }
       clearSilenceDetection()
     }
-  }, [clearSilenceDetection, startSilenceDetection, updateSpeechTimestamp, stopListening])
+  }, [
+    clearSilenceDetection,
+    startSilenceDetection,
+    updateSpeechTimestamp,
+    stopListening,
+  ])
 
   // WebSocketの準備ができているかを確認
   const isWebSocketReady = useCallback(() => {

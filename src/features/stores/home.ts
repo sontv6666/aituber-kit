@@ -6,9 +6,9 @@ import { Viewer } from '../vrmViewer/viewer'
 import { messageSelectors } from '../messages/messageSelectors'
 import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch'
 import { generateMessageId } from '@/utils/messageUtils'
-import { 
-  extractMathProblemTag, 
-  removeMathProblemTag 
+import {
+  extractMathProblemTag,
+  removeMathProblemTag,
 } from '@/utils/extractMathProblemTag'
 import { isMathProblem, extractMathProblem } from '@/utils/mathProblemFilter'
 
@@ -105,11 +105,12 @@ const homeStore = create<HomeState>()(
           const currentTimestamp = message.timestamp || new Date().toISOString()
 
           // Extract đề bài toán từ message content nếu có
-          const messageContent = typeof message.content === 'string' 
-            ? message.content 
-            : Array.isArray(message.content) && message.content[0]?.text
-              ? message.content[0].text
-              : ''
+          const messageContent =
+            typeof message.content === 'string'
+              ? message.content
+              : Array.isArray(message.content) && message.content[0]?.text
+                ? message.content[0].text
+                : ''
 
           // Nếu là tin nhắn từ assistant, check tag [MATH_PROBLEM]
           if (message.role === 'assistant' && messageContent) {
@@ -124,30 +125,37 @@ const homeStore = create<HomeState>()(
                 messageId: messageId, // Lưu messageId để match chính xác với message
               }
               updatedMathProblems = [...updatedMathProblems, newMathProblem]
-              
+
               // Loại bỏ tag khỏi message content trước khi lưu
               const cleanedContent = removeMathProblemTag(messageContent)
               if (typeof message.content === 'string') {
                 message.content = cleanedContent
-              } else if (Array.isArray(message.content) && message.content.length > 0) {
+              } else if (
+                Array.isArray(message.content) &&
+                message.content.length > 0
+              ) {
                 // Giữ nguyên cấu trúc array, chỉ update text
                 message.content = [
                   { ...message.content[0], text: cleanedContent },
-                  ...message.content.slice(1)
+                  ...message.content.slice(1),
                 ] as typeof message.content
               }
             }
           }
 
           // Nếu là tin nhắn từ user và có vẻ là đề bài toán
-          if (message.role === 'user' && messageContent && isMathProblem(messageContent)) {
+          if (
+            message.role === 'user' &&
+            messageContent &&
+            isMathProblem(messageContent)
+          ) {
             const mathProblem = extractMathProblem(messageContent)
             if (mathProblem) {
               // Check xem đề bài này đã tồn tại chưa (tránh trùng lặp)
               const isDuplicate = updatedMathProblems.some(
-                mp => mp.problem === mathProblem && mp.source === 'user'
+                (mp) => mp.problem === mathProblem && mp.source === 'user'
               )
-              
+
               if (!isDuplicate) {
                 const newMathProblem: MathProblem = {
                   id: generateMessageId(),
@@ -176,7 +184,10 @@ const homeStore = create<HomeState>()(
                 'Cannot add message without role or content',
                 message
               )
-              return { chatLog: currentChatLog, mathProblems: updatedMathProblems }
+              return {
+                chatLog: currentChatLog,
+                mathProblems: updatedMathProblems,
+              }
             }
             const newMessage: Message = {
               id: messageId,
@@ -189,7 +200,7 @@ const homeStore = create<HomeState>()(
             console.log(`Message added: ID=${messageId}`)
           }
 
-          return { 
+          return {
             chatLog: updatedChatLog,
             mathProblems: updatedMathProblems,
           }

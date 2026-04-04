@@ -30,5 +30,7 @@ export function removeMathProblemTag(message: string): string {
   if (!message || typeof message !== 'string') return message
 
   // Loại bỏ tag [MATH_PROBLEM]...[/MATH_PROBLEM] nhưng giữ lại nội dung xung quanh
-  return message.replace(/\[MATH_PROBLEM\]\s*[\s\S]*?\s*\[\/MATH_PROBLEM\]\s*/gi, '').trim()
+  return message
+    .replace(/\[MATH_PROBLEM\]\s*[\s\S]*?\s*\[\/MATH_PROBLEM\]\s*/gi, '')
+    .trim()
 }

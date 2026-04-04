@@ -18,10 +18,14 @@ export default async function handler(
   try {
     // SSMLが含まれているかチェック
     const isSSML = message.includes('<break') || message.includes('<speak>')
-    
+
     // SSMLの場合はspeakタグでラップ、そうでない場合はそのまま
     const inputText = isSSML
-      ? { ssml: message.includes('<speak>') ? message : `<speak>${message}</speak>` }
+      ? {
+          ssml: message.includes('<speak>')
+            ? message
+            : `<speak>${message}</speak>`,
+        }
       : { text: message }
 
     // Check if GOOGLE_TTS_KEY exists

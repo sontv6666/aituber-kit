@@ -12,7 +12,7 @@ export const MathProblemsView = () => {
 
   // Lấy danh sách đề bài toán đã được lưu, chỉ lấy các đề bài từ học sinh (user)
   const allMathProblems = homeStore((s) => s.mathProblems)
-  const mathProblems = allMathProblems.filter(mp => mp.source === 'user')
+  const mathProblems = allMathProblems.filter((mp) => mp.source === 'user')
 
   useEffect(() => {
     if (chatScrollRef.current && mathProblems.length > 0) {
@@ -47,8 +47,8 @@ export const MathProblemsView = () => {
       <div className="max-h-full px-4 pt-24 pb-16 overflow-y-auto scroll-hidden">
         {mathProblems.map((mathProblem, i) => {
           return (
-            <div 
-              key={mathProblem.id || i} 
+            <div
+              key={mathProblem.id || i}
               ref={mathProblems.length - 1 === i ? chatScrollRef : null}
               className="mx-auto ml-0 md:ml-10 lg:ml-20 my-4 pl-10"
             >

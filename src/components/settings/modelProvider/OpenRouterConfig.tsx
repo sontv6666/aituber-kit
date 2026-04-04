@@ -42,10 +42,13 @@ export const OpenRouterConfig = ({
           }
         />
         <div className="my-2 text-sm text-gray-500">
-          {t('OpenRouterModelNameInstruction') || 'Please enter the model identifier from OpenRouter (e.g., "openai/gpt-4o", "mistralai/mistral-large-latest"). Note: Only models that support API v2 specification are compatible.'}
+          {t('OpenRouterModelNameInstruction') ||
+            'Please enter the model identifier from OpenRouter (e.g., "openai/gpt-4o", "mistralai/mistral-large-latest"). Note: Only models that support API v2 specification are compatible.'}
         </div>
         <div className="my-2 text-xs text-yellow-600 bg-yellow-50 p-2 rounded">
-          ⚠️ Some free models (e.g., models with ":free" suffix) may only support API v1 and will not work. Please use v2-compatible models from{' '}
+          ⚠️ Some free models (e.g., models with &quot;:free&quot; suffix) may
+          only support API v1 and will not work. Please use v2-compatible models
+          from{' '}
           <a
             href="https://openrouter.ai/models"
             target="_blank"

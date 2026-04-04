@@ -376,11 +376,16 @@ const getInitialValuesFromEnv = (): SettingsState => ({
   characterPreset3: process.env.NEXT_PUBLIC_CHARACTER_PRESET3 || SYSTEM_PROMPT,
   characterPreset4: process.env.NEXT_PUBLIC_CHARACTER_PRESET4 || SYSTEM_PROMPT,
   characterPreset5: process.env.NEXT_PUBLIC_CHARACTER_PRESET5 || SYSTEM_PROMPT,
-  customPresetName1: process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME1 || 'Cách dạy 1',
-  customPresetName2: process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME2 || 'Cách dạy 2',
-  customPresetName3: process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME3 || 'Cách dạy 3',
-  customPresetName4: process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME4 || 'Cách dạy 4',
-  customPresetName5: process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME5 || 'Cách dạy 5',
+  customPresetName1:
+    process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME1 || 'Cách dạy 1',
+  customPresetName2:
+    process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME2 || 'Cách dạy 2',
+  customPresetName3:
+    process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME3 || 'Cách dạy 3',
+  customPresetName4:
+    process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME4 || 'Cách dạy 4',
+  customPresetName5:
+    process.env.NEXT_PUBLIC_CUSTOM_PRESET_NAME5 || 'Cách dạy 5',
   selectedPresetIndex: 0,
   showAssistantText:
     process.env.NEXT_PUBLIC_SHOW_ASSISTANT_TEXT === 'true' ? true : false,
@@ -560,48 +565,61 @@ const settingsStore = create<SettingsState>()(
       // Migrate old Japanese system prompts to new Vietnamese prompts
       // Also ensure all presets have the full prompt (not just core)
       if (state) {
-        const oldJapanesePromptIndicator = 'あなたはこれからuserと仲の良い1人の人間として振舞い会話を行います'
+        const oldJapanesePromptIndicator =
+          'あなたはこれからuserと仲の良い1人の人間として振舞い会話を行います'
         const fullVietnamesePrompt = SYSTEM_PROMPT // This is getFullSystemPrompt() which includes all examples
-        
+
         // Check if prompt is incomplete (missing examples sections)
         const isIncompletePrompt = (prompt: string): boolean => {
           if (!prompt) return true
-          
+
           // Check if it's the old Japanese prompt
           if (prompt.includes(oldJapanesePromptIndicator)) return true
-          
+
           // Full prompt should be quite long (typically > 8000 characters with all examples)
           // Core prompt alone is around 5000-6000 characters
           // If prompt is too short, it's likely incomplete
           if (prompt.length < 7000) return true
-          
+
           // Check if it contains key sections of full prompt
           // Full prompt should have at least 2 of these 3 major sections
-          const hasConversationExamples = prompt.includes('VÍ DỤ HỘI THOẠI ĐẦY ĐỦ') || 
-                                         prompt.includes('Ví dụ 1 - Dạy Toán') ||
-                                         prompt.includes('Ví dụ 2 - Từ chối dạy Tiếng Việt')
-          const hasCultureExamples = prompt.includes('VÍ DỤ VỀ NHÂN VẬT & VĂN HÓA VIỆT NAM') || 
-                                    prompt.includes('Tết Nguyên Đán') ||
-                                    prompt.includes('Ví dụ 9 - Chủ tịch Hồ Chí Minh')
-          const hasAdvancedExamples = prompt.includes('XỬ LÝ CÂU HỎI NGOÀI TẦM ĐỘ TUỔI') || 
-                                     prompt.includes('Ví dụ 21 - Toán lớp cao hơn') ||
-                                     prompt.includes('NGUYÊN TẮC XỬ LÝ CÂU HỎI NGOÀI TẦM')
-          
+          const hasConversationExamples =
+            prompt.includes('VÍ DỤ HỘI THOẠI ĐẦY ĐỦ') ||
+            prompt.includes('Ví dụ 1 - Dạy Toán') ||
+            prompt.includes('Ví dụ 2 - Từ chối dạy Tiếng Việt')
+          const hasCultureExamples =
+            prompt.includes('VÍ DỤ VỀ NHÂN VẬT & VĂN HÓA VIỆT NAM') ||
+            prompt.includes('Tết Nguyên Đán') ||
+            prompt.includes('Ví dụ 9 - Chủ tịch Hồ Chí Minh')
+          const hasAdvancedExamples =
+            prompt.includes('XỬ LÝ CÂU HỎI NGOÀI TẦM ĐỘ TUỔI') ||
+            prompt.includes('Ví dụ 21 - Toán lớp cao hơn') ||
+            prompt.includes('NGUYÊN TẮC XỬ LÝ CÂU HỎI NGOÀI TẦM')
+
           // If missing 2 or more sections, consider it incomplete
-          const sectionsFound = [hasConversationExamples, hasCultureExamples, hasAdvancedExamples].filter(Boolean).length
+          const sectionsFound = [
+            hasConversationExamples,
+            hasCultureExamples,
+            hasAdvancedExamples,
+          ].filter(Boolean).length
           if (sectionsFound < 2) return true
-          
+
           // Also check for the closing phrase that should be in full prompt
-          if (!prompt.includes('Bây giờ hãy bắt đầu cuộc trò chuyện với học trò của mình!')) return true
-          
+          if (
+            !prompt.includes(
+              'Bây giờ hãy bắt đầu cuộc trò chuyện với học trò của mình!'
+            )
+          )
+            return true
+
           return false
         }
-        
+
         // Check and update systemPrompt if it's incomplete
         if (state.systemPrompt && isIncompletePrompt(state.systemPrompt)) {
           state.systemPrompt = fullVietnamesePrompt
         }
-        
+
         // Check and update all character presets if they are incomplete
         const presets: Array<keyof SettingsState> = [
           'characterPreset1',
@@ -610,16 +628,19 @@ const settingsStore = create<SettingsState>()(
           'characterPreset4',
           'characterPreset5',
         ]
-        
+
         presets.forEach((presetKey) => {
           const presetValue = state[presetKey] as string
           if (presetValue && isIncompletePrompt(presetValue)) {
             ;(state as any)[presetKey] = fullVietnamesePrompt
           }
         })
-        
+
         // Đảm bảo preset 1 luôn có prompt đầy đủ (nếu chưa có hoặc không đầy đủ)
-        if (!state.characterPreset1 || isIncompletePrompt(state.characterPreset1)) {
+        if (
+          !state.characterPreset1 ||
+          isIncompletePrompt(state.characterPreset1)
+        ) {
           state.characterPreset1 = fullVietnamesePrompt
         }
       }

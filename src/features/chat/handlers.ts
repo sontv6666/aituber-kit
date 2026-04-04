@@ -304,14 +304,17 @@ export const speakMessageHandler = async (receivedMessage: string) => {
         const prevLocalRemaining = localRemaining
         const { emotionTag, remainingText: textAfterEmotion } =
           extractEmotion(localRemaining)
-        
+
         // Loại bỏ tag [MATH_PROBLEM] khỏi sentence trước khi phát
         // (tag đã được extract và lưu trong upsertMessage)
-        const { removeMathProblemTag } = await import('@/utils/extractMathProblemTag')
+        const { removeMathProblemTag } = await import(
+          '@/utils/extractMathProblemTag'
+        )
         const cleanedTextAfterEmotion = removeMathProblemTag(textAfterEmotion)
-        
-        const { sentence, remainingText: textAfterSentence } =
-          extractSentence(cleanedTextAfterEmotion)
+
+        const { sentence, remainingText: textAfterSentence } = extractSentence(
+          cleanedTextAfterEmotion
+        )
 
         if (sentence) {
           assistantMessageListRef.current.push(sentence)

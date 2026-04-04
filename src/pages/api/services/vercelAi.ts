@@ -84,9 +84,11 @@ export async function streamAiText({
     // Handle API version incompatibility errors
     let errorMessage = error.message || 'Unknown error'
     let errorCode = 'AIServiceError'
-    
-    if (error.message?.includes('Unsupported model version v1') || 
-        error.message?.includes('specification version')) {
+
+    if (
+      error.message?.includes('Unsupported model version v1') ||
+      error.message?.includes('specification version')
+    ) {
       errorMessage = `The model "${model}" only supports API v1, but this requires API v2. Please try a different model that supports v2 specification. For OpenRouter, check compatible models at https://openrouter.ai/models`
       errorCode = 'ModelVersionIncompatible'
     }
@@ -141,9 +143,11 @@ export async function generateAiText({
     // Handle API version incompatibility errors
     let errorMessage = error.message || 'Unknown error'
     let errorCode = 'AIServiceError'
-    
-    if (error.message?.includes('Unsupported model version v1') || 
-        error.message?.includes('specification version')) {
+
+    if (
+      error.message?.includes('Unsupported model version v1') ||
+      error.message?.includes('specification version')
+    ) {
       errorMessage = `The model "${model}" only supports API v1, but this requires API v2. Please try a different model that supports v2 specification. For OpenRouter, check compatible models at https://openrouter.ai/models`
       errorCode = 'ModelVersionIncompatible'
     }

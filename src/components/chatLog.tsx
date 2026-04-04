@@ -23,8 +23,8 @@ export const ChatLog = () => {
   const mathProblemsByMessageId = useMemo(() => {
     const map = new Map<string, MathProblem>()
     mathProblems
-      .filter(mp => mp.source === 'assistant' && mp.messageId)
-      .forEach(mp => {
+      .filter((mp) => mp.source === 'assistant' && mp.messageId)
+      .forEach((mp) => {
         if (mp.messageId) {
           map.set(mp.messageId, mp)
         }
@@ -95,12 +95,16 @@ export const ChatLog = () => {
       <div className="max-h-full px-4 pt-24 pb-16 overflow-y-auto scroll-hidden">
         {messages.map((msg, i) => {
           // Tìm mathProblem tương ứng nếu là message từ assistant
-          const relatedMathProblem = msg.role === 'assistant' && msg.id
-            ? mathProblemsByMessageId.get(msg.id)
-            : null
+          const relatedMathProblem =
+            msg.role === 'assistant' && msg.id
+              ? mathProblemsByMessageId.get(msg.id)
+              : null
 
           return (
-            <div key={msg.id || i} ref={messages.length - 1 === i ? chatScrollRef : null}>
+            <div
+              key={msg.id || i}
+              ref={messages.length - 1 === i ? chatScrollRef : null}
+            >
               {typeof msg.content === 'string' ? (
                 <Chat
                   role={msg.role}

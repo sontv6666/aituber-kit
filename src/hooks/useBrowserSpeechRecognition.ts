@@ -132,9 +132,13 @@ export const useBrowserSpeechRecognition = (
     }
 
     if (!recognition) {
-      console.error('❌ SpeechRecognition is not initialized yet. Please wait a moment and try again.')
+      console.error(
+        '❌ SpeechRecognition is not initialized yet. Please wait a moment and try again.'
+      )
       toastStore.getState().addToast({
-        message: t('Toasts.SpeechRecognitionNotSupported') || 'Speech recognition is not ready. Please refresh the page.',
+        message:
+          t('Toasts.SpeechRecognitionNotSupported') ||
+          'Speech recognition is not ready. Please refresh the page.',
         type: 'error',
         tag: 'speech-recognition-not-initialized',
       })

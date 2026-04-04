@@ -269,7 +269,9 @@ const createSpeakCharacter = () => {
 
       // Loại bỏ tag [MATH_PROBLEM] khỏi message trước khi phát (tag chỉ dùng để lưu trữ)
       if (talk.message) {
-        const { removeMathProblemTag } = await import('@/utils/extractMathProblemTag')
+        const { removeMathProblemTag } = await import(
+          '@/utils/extractMathProblemTag'
+        )
         talk.message = removeMathProblemTag(talk.message)
       }
 

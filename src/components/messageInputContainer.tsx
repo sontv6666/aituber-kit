@@ -32,7 +32,8 @@ export const MessageInputContainer = ({ onChatProcessStart }: Props) => {
   // 常時マイク入力モードの切り替え
   const toggleContinuousMode = () => {
     // WhisperまたはVoskモードの場合は常時マイク入力モードを使用できない
-    if (speechRecognitionMode === 'whisper' || speechRecognitionMode === 'vosk') return
+    if (speechRecognitionMode === 'whisper' || speechRecognitionMode === 'vosk')
+      return
 
     // 現在のモードを反転して設定
     settingsStore.setState({

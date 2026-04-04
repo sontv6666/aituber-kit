@@ -45,10 +45,10 @@ export function getCustomSystemPrompt(options: {
   includeCulture?: boolean
   includeAdvanced?: boolean
 }): string {
-  const { 
-    includeConversation = true, 
-    includeCulture = true, 
-    includeAdvanced = true 
+  const {
+    includeConversation = true,
+    includeCulture = true,
+    includeAdvanced = true,
   } = options
 
   let prompt = CORE_PROMPT

@@ -37,36 +37,35 @@ export const messageSelectors = {
     includeTimestamp: boolean
   ): Message[] => {
     const maxPastMessages = settingsStore.getState().maxPastMessages
-    const processedMessages = messages
-      .map((message, index) => {
-        // 最後のメッセージだけそのまま利用する（= 最後のメッセージだけマルチモーダルの対象となる）
-        const isLastMessage = index === messages.length - 1
-        const messageText = Array.isArray(message.content)
-          ? message.content[0].text
-          : message.content || ''
+    const processedMessages = messages.map((message, index) => {
+      // 最後のメッセージだけそのまま利用する（= 最後のメッセージだけマルチモーダルの対象となる）
+      const isLastMessage = index === messages.length - 1
+      const messageText = Array.isArray(message.content)
+        ? message.content[0].text
+        : message.content || ''
 
-        let content: Message['content']
-        if (includeTimestamp) {
-          content = message.timestamp
-            ? `[${message.timestamp}] ${messageText}`
-            : messageText
-          if (isLastMessage && Array.isArray(message.content)) {
-            content = [
-              { type: 'text', text: content },
-              { type: 'image', image: message.content[1].image },
-            ]
-          }
-        } else {
-          content = isLastMessage ? message.content : messageText
+      let content: Message['content']
+      if (includeTimestamp) {
+        content = message.timestamp
+          ? `[${message.timestamp}] ${messageText}`
+          : messageText
+        if (isLastMessage && Array.isArray(message.content)) {
+          content = [
+            { type: 'text', text: content },
+            { type: 'image', image: message.content[1].image },
+          ]
         }
+      } else {
+        content = isLastMessage ? message.content : messageText
+      }
 
-        return {
-          role: ['assistant', 'user', 'system'].includes(message.role)
-            ? message.role
-            : 'assistant',
-          content,
-        }
-      })
+      return {
+        role: ['assistant', 'user', 'system'].includes(message.role)
+          ? message.role
+          : 'assistant',
+        content,
+      }
+    })
 
     let startIndex = Math.max(0, processedMessages.length - maxPastMessages)
 

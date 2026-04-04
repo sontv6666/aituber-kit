@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  type ComponentProps,
 } from 'react'
 import homeStore from '@/features/stores/home'
 import settingsStore from '@/features/stores/settings'
@@ -11,12 +12,14 @@ import { IconButton } from '../iconButton'
 import { useDraggable } from '@/hooks/useDraggable'
 import { useResizable } from '@/hooks/useResizable'
 
+type IconButtonIconName = ComponentProps<typeof IconButton>['iconName']
+
 interface VideoDisplayProps {
   videoRef: React.RefObject<HTMLVideoElement>
   mediaStream?: MediaStream | null
   onCapture?: () => void
   onToggleSource?: () => void
-  toggleSourceIcon?: string
+  toggleSourceIcon?: IconButtonIconName
   toggleSourceDisabled?: boolean
   showToggleButton?: boolean
   className?: string

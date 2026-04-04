@@ -27,7 +27,10 @@ const SpeechInput = () => {
 
   // whisperまたはvoskモードの場合、自動的にnoSpeechTimeoutを0に、showSilenceProgressBarをfalseに設定
   useEffect(() => {
-    if (speechRecognitionMode === 'whisper' || speechRecognitionMode === 'vosk') {
+    if (
+      speechRecognitionMode === 'whisper' ||
+      speechRecognitionMode === 'vosk'
+    ) {
       settingsStore.setState({
         initialSpeechTimeout: 0,
         noSpeechTimeout: 0,
@@ -83,7 +86,11 @@ const SpeechInput = () => {
           <TextButton
             onClick={() => {
               // Cycle through: browser -> whisper -> vosk -> browser
-              const modes: Array<'browser' | 'whisper' | 'vosk'> = ['browser', 'whisper', 'vosk']
+              const modes: Array<'browser' | 'whisper' | 'vosk'> = [
+                'browser',
+                'whisper',
+                'vosk',
+              ]
               const currentIndex = modes.indexOf(speechRecognitionMode)
               const nextIndex = (currentIndex + 1) % modes.length
               settingsStore.setState({
@@ -157,7 +164,8 @@ const SpeechInput = () => {
             {t('VoskServerURL') || 'Vosk Server URL'}
           </div>
           <div className="my-4 whitespace-pre-line">
-            {t('VoskServerURLInfo') || 'Nhập URL của Vosk server. Mặc định: http://localhost:2700\nVosk chỉ hỗ trợ nhận dạng tiếng Việt.'}
+            {t('VoskServerURLInfo') ||
+              'Nhập URL của Vosk server. Mặc định: http://localhost:2700\nVosk chỉ hỗ trợ nhận dạng tiếng Việt.'}
           </div>
           <input
             className="text-ellipsis px-4 py-2 w-full md:w-1/2 bg-white hover:bg-white-hover rounded-lg"
@@ -169,7 +177,8 @@ const SpeechInput = () => {
             }
           />
           <div className="my-4 text-sm text-orange-500">
-            {t('VoskServerURLNote') || 'Lưu ý: Cần cài đặt và chạy Vosk server riêng. Đặt VOSK_SERVER_URL trong file .env để cấu hình.'}
+            {t('VoskServerURLNote') ||
+              'Lưu ý: Cần cài đặt và chạy Vosk server riêng. Đặt VOSK_SERVER_URL trong file .env để cấu hình.'}
           </div>
         </div>
       )}
@@ -184,7 +193,8 @@ const SpeechInput = () => {
             </div>
             <div className="mt-6 font-bold">
               <div className="select-none">
-                {t('InitialSpeechTimeout')}: {initialSpeechTimeout.toFixed(1)} {t('Seconds')}
+                {t('InitialSpeechTimeout')}: {initialSpeechTimeout.toFixed(1)}{' '}
+                {t('Seconds')}
               </div>
               <input
                 type="range"
@@ -208,7 +218,8 @@ const SpeechInput = () => {
             </div>
             <div className="mt-6 font-bold">
               <div className="select-none">
-                {t('NoSpeechTimeout')}: {noSpeechTimeout.toFixed(1)} {t('Seconds')}
+                {t('NoSpeechTimeout')}: {noSpeechTimeout.toFixed(1)}{' '}
+                {t('Seconds')}
               </div>
               <input
                 type="range"

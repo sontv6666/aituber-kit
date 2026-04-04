@@ -79,7 +79,8 @@ const Slide = () => {
         customModel
       ) && (
         <p className="my-2 text-sm text-yellow-600">
-          {t('SlideModeUnavailable') || 'Chế độ slide chỉ khả dụng khi mô hình hỗ trợ đa phương thức được chọn và bật.'}
+          {t('SlideModeUnavailable') ||
+            'Chế độ slide chỉ khả dụng khi mô hình hỗ trợ đa phương thức được chọn và bật.'}
         </p>
       )}
       <div className="my-2">

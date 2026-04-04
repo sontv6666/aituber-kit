@@ -71,7 +71,9 @@ export const useVoskRecognition = (
       })
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        const errorData = await response
+          .json()
+          .catch(() => ({ error: 'Unknown error' }))
         throw new Error(
           `Vosk API error: ${response.status} - ${errorData.details || errorData.error || 'Unknown error'}`
         )
