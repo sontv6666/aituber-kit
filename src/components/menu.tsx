@@ -99,7 +99,7 @@ export const Menu = () => {
     setTouchEndTime(Date.now())
     if (touchStartTime && Date.now() - touchStartTime >= 800) {
       // 800ms以上押し続けるとロングタップと判定
-      setShowSettings(true)
+      // setShowSettings(true)
     }
     setTouchStartTime(null)
   }
@@ -148,7 +148,7 @@ export const Menu = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === '.') {
-        setShowSettings((prevState) => !prevState)
+        // setShowSettings((prevState) => !prevState)
       }
     }
 
@@ -229,13 +229,7 @@ export const Menu = () => {
         >
           {showControlPanel && (
             <>
-              <div className="md:order-1 order-2">
-                <IconButton
-                  iconName="24/Settings"
-                  isProcessing={false}
-                  onClick={() => setShowSettings(true)}
-                ></IconButton>
-              </div>
+              {/* Settings button removed */}
               <div className="md:order-2 order-1">
                 <IconButton
                   iconName={

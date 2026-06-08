@@ -247,7 +247,7 @@ const getInitialValuesFromEnv = (): SettingsState => ({
   fireworksKey: '',
   difyKey: '',
   deepseekKey: '',
-  openrouterKey: '',
+  openrouterKey: process.env.NEXT_PUBLIC_OPENROUTER_KEY || '',
   lmstudioKey: '',
   ollamaKey: '',
   koeiromapKey: process.env.NEXT_PUBLIC_KOEIROMAP_KEY || '',
@@ -258,12 +258,12 @@ const getInitialValuesFromEnv = (): SettingsState => ({
 
   // Model Provider
   selectAIService:
-    (process.env.NEXT_PUBLIC_SELECT_AI_SERVICE as AIService) || 'openai',
+    (process.env.NEXT_PUBLIC_SELECT_AI_SERVICE as AIService) || 'openrouter',
   selectAIModel: migrateOpenAIModelName(
-    process.env.NEXT_PUBLIC_SELECT_AI_MODEL || 'gpt-4.1'
+    process.env.NEXT_PUBLIC_SELECT_AI_MODEL || 'nvidia/nemotron-3-ultra-550b-a55b:free'
   ),
   localLlmUrl: process.env.NEXT_PUBLIC_LOCAL_LLM_URL || '',
-  selectVoice: (process.env.NEXT_PUBLIC_SELECT_VOICE as AIVoice) || 'voicevox',
+  selectVoice: (process.env.NEXT_PUBLIC_SELECT_VOICE as AIVoice) || 'google',
   koeiroParam: DEFAULT_PARAM,
   googleTtsType: process.env.NEXT_PUBLIC_GOOGLE_TTS_TYPE || '',
   voicevoxSpeaker: process.env.NEXT_PUBLIC_VOICEVOX_SPEAKER || '46',
