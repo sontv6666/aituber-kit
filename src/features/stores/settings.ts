@@ -260,7 +260,7 @@ const getInitialValuesFromEnv = (): SettingsState => ({
   selectAIService:
     (process.env.NEXT_PUBLIC_SELECT_AI_SERVICE as AIService) || 'openrouter',
   selectAIModel: migrateOpenAIModelName(
-    process.env.NEXT_PUBLIC_SELECT_AI_MODEL || 'nvidia/nemotron-3-ultra-550b-a55b:free'
+    process.env.NEXT_PUBLIC_SELECT_AI_MODEL || 'openrouter/free'
   ),
   localLlmUrl: process.env.NEXT_PUBLIC_LOCAL_LLM_URL || '',
   selectVoice: (process.env.NEXT_PUBLIC_SELECT_VOICE as AIVoice) || 'google',
