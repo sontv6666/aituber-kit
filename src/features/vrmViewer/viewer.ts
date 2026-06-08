@@ -110,6 +110,7 @@ export class Viewer {
       this._renderer.domElement
     )
     this._cameraControls.screenSpacePanning = true
+    this._cameraControls.enabled = !settingsStore.getState().fixedCharacterPosition
     this._cameraControls.update()
 
     // Listen for position lock changes
