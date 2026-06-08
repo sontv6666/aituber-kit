@@ -263,7 +263,7 @@ const getInitialValuesFromEnv = (): SettingsState => ({
     process.env.NEXT_PUBLIC_SELECT_AI_MODEL || 'openrouter/free'
   ),
   localLlmUrl: process.env.NEXT_PUBLIC_LOCAL_LLM_URL || '',
-  selectVoice: (process.env.NEXT_PUBLIC_SELECT_VOICE as AIVoice) || 'google',
+  selectVoice: (process.env.NEXT_PUBLIC_SELECT_VOICE as AIVoice) || 'google_translate',
   koeiroParam: DEFAULT_PARAM,
   googleTtsType: process.env.NEXT_PUBLIC_GOOGLE_TTS_TYPE || '',
   voicevoxSpeaker: process.env.NEXT_PUBLIC_VOICEVOX_SPEAKER || '46',
