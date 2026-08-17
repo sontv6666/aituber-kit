@@ -16,6 +16,8 @@ import i18next from 'i18next'
 import toastStore from '@/features/stores/toast'
 import { generateMessageId } from '@/utils/messageUtils'
 import { isMultiModalAvailable } from '@/features/constants/aiModels'
+import { buildMemoryBlock } from '@/features/memory/memoryInjector'
+import { useMemoryStore } from '@/features/memory/memoryStore'
 
 // セッションIDを生成する関数
 const generateSessionId = () => generateMessageId()
@@ -888,11 +890,21 @@ export const handleSendChatFn = () => async (text: string) => {
         ]
       : []
 
+    const memoryState = useMemoryStore.getState()
+    const memoryBlock = buildMemoryBlock(
+      memoryState.profile,
+      memoryState.facts
+    )
+    const memoryMessages: Message[] = memoryBlock
+      ? [{ role: 'system', content: memoryBlock }]
+      : []
+
     const messages: Message[] = [
       {
         role: 'system',
         content: systemPrompt,
       },
+      ...memoryMessages,
       ...continuityMessages,
       ...messageSelectors.getProcessedMessages(
         currentChatLog,
