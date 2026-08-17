@@ -11,6 +11,8 @@ import {
   removeMathProblemTag,
 } from '@/utils/extractMathProblemTag'
 import { isMathProblem, extractMathProblem } from '@/utils/mathProblemFilter'
+import { persistMessage } from '@/features/memory/repository'
+import { useMemoryStore } from '@/features/memory/memoryStore'
 
 export interface MathProblem {
   id: string
@@ -198,6 +200,23 @@ const homeStore = create<HomeState>()(
             }
             updatedChatLog = [...currentChatLog, newMessage]
             console.log(`Message added: ID=${messageId}`)
+          }
+
+          const studentId = useMemoryStore.getState().studentId
+          const textContent =
+            typeof message.content === 'string'
+              ? message.content
+              : Array.isArray(message.content)
+                ? (message.content[0]?.text ?? '')
+                : ''
+          if (studentId && existingMessageIndex === -1 && textContent) {
+            void persistMessage(
+              studentId,
+              message.role ?? 'user',
+              textContent,
+              (message as any).emotion ?? null
+            )
+            useMemoryStore.getState().noteMessage()
           }
 
           return {
