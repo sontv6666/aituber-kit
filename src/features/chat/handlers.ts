@@ -18,6 +18,7 @@ import { generateMessageId } from '@/utils/messageUtils'
 import { isMultiModalAvailable } from '@/features/constants/aiModels'
 import { buildMemoryBlock } from '@/features/memory/memoryInjector'
 import { useMemoryStore } from '@/features/memory/memoryStore'
+import { maybeExtract } from '@/features/memory/memoryExtractor'
 
 // セッションIDを生成する関数
 const generateSessionId = () => generateMessageId()
@@ -925,6 +926,7 @@ export const handleSendChatFn = () => async (text: string) => {
 
     try {
       await processAIResponse(messages)
+      void maybeExtract(homeStore.getState().chatLog)
     } catch (e) {
       console.error(e)
       homeStore.setState({ chatProcessing: false })
