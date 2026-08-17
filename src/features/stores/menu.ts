@@ -7,6 +7,7 @@ type SettingsTabKey =
   | 'ai'
   | 'voice'
   | 'speechInput'
+  | 'studentProfile'
   | 'youtube'
   | 'slide'
   | 'images'

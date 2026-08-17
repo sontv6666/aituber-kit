@@ -441,5 +441,16 @@
   "BottomLayer": "最背面",
   "MostVisible": "最も見える",
   "LeastVisible": "最も見えない",
-  "Presets": "プリセット"
+  "Presets": "プリセット",
+  "StudentProfile": {
+    "Title": "生徒プロフィール",
+    "DisplayName": "名前",
+    "PreferredName": "呼んでほしい名前",
+    "AddressForm": "呼び方",
+    "GradeLevel": "学年・レベル",
+    "CurrentTopic": "今学んでいること",
+    "ProgressNotes": "進度メモ",
+    "Interests": "好きなこと（カンマ区切り）",
+    "Facts": "記憶している情報"
+  }
 }

@@ -15,6 +15,7 @@ import Log from './log'
 import Other from './other'
 import SpeechInput from './speechInput'
 import Images from './images'
+import StudentProfile from './studentProfile'
 
 type Props = {
   onClickClose: () => void
@@ -57,6 +58,7 @@ type TabKey =
   | 'log'
   | 'other'
   | 'speechInput'
+  | 'studentProfile'
 
 // アイコンのパスマッピング
 const tabIconMapping: Record<TabKey, string> = {
@@ -71,6 +73,7 @@ const tabIconMapping: Record<TabKey, string> = {
   log: '/images/setting-icons/conversation-history.svg',
   other: '/images/setting-icons/other-settings.svg',
   speechInput: '/images/setting-icons/microphone-settings.svg',
+  studentProfile: '/images/setting-icons/character-settings.svg',
 }
 
 const Main = () => {
@@ -130,6 +133,10 @@ const Main = () => {
       label: t('SpeechInputSettings'),
     },
     {
+      key: 'studentProfile',
+      label: t('StudentProfile.Title'),
+    },
+    {
       key: 'youtube',
       label: t('YoutubeSettings'),
     },
@@ -175,6 +182,8 @@ const Main = () => {
         return <Other />
       case 'speechInput':
         return <SpeechInput />
+      case 'studentProfile':
+        return <StudentProfile />
     }
   }
 
