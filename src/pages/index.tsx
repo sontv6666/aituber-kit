@@ -14,6 +14,7 @@ import CharacterPresetMenu from '@/components/characterPresetMenu'
 import ImageOverlay from '@/components/ImageOverlay'
 import homeStore from '@/features/stores/home'
 import settingsStore from '@/features/stores/settings'
+import { useMemoryStore } from '@/features/memory/memoryStore'
 import '@/lib/i18n'
 import { buildUrl } from '@/utils/buildUrl'
 import { YoutubeManager } from '@/components/youtubeManager'
@@ -55,6 +56,10 @@ const Home = () => {
       value: settingsStore((s) => s.characterPreset5),
     },
   ]
+
+  useEffect(() => {
+    void useMemoryStore.getState().bootstrap()
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
