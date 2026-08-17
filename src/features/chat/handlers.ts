@@ -892,10 +892,7 @@ export const handleSendChatFn = () => async (text: string) => {
       : []
 
     const memoryState = useMemoryStore.getState()
-    const memoryBlock = buildMemoryBlock(
-      memoryState.profile,
-      memoryState.facts
-    )
+    const memoryBlock = buildMemoryBlock(memoryState.profile, memoryState.facts)
     const memoryMessages: Message[] = memoryBlock
       ? [{ role: 'system', content: memoryBlock }]
       : []

@@ -17,10 +17,7 @@ jest.mock('@/features/memory/supabaseClient', () => ({
   }),
 }))
 
-import {
-  upsertProfile,
-  persistMessage,
-} from '@/features/memory/repository'
+import { upsertProfile, persistMessage } from '@/features/memory/repository'
 import { emptyProfile } from '@/features/memory/types'
 
 describe('repository', () => {

@@ -7,7 +7,10 @@ export async function ensureStudentRow(id: string): Promise<void> {
   try {
     await client
       .from('students')
-      .upsert({ id, last_active: new Date().toISOString() }, { onConflict: 'id' })
+      .upsert(
+        { id, last_active: new Date().toISOString() },
+        { onConflict: 'id' }
+      )
   } catch (e) {
     console.warn('ensureStudentRow failed', e)
   }
@@ -64,12 +67,10 @@ export async function upsertFacts(facts: MemoryFact[]): Promise<void> {
   const client = getSupabaseClient()
   if (!client || !facts.length) return
   try {
-    await client
-      .from('memory_facts')
-      .upsert(
-        facts.map((f) => ({ ...f, updated_at: new Date().toISOString() })),
-        { onConflict: 'student_id,category,key' }
-      )
+    await client.from('memory_facts').upsert(
+      facts.map((f) => ({ ...f, updated_at: new Date().toISOString() })),
+      { onConflict: 'student_id,category,key' }
+    )
   } catch (e) {
     console.warn('upsertFacts failed', e)
   }
@@ -84,9 +85,12 @@ export async function persistMessage(
   const client = getSupabaseClient()
   if (!client || !studentId) return
   try {
-    await client
-      .from('messages')
-      .insert({ student_id: studentId, role, content, emotion: emotion ?? null })
+    await client.from('messages').insert({
+      student_id: studentId,
+      role,
+      content,
+      emotion: emotion ?? null,
+    })
   } catch (e) {
     console.warn('persistMessage failed', e)
   }

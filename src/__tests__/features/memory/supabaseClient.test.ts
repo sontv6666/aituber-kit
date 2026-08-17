@@ -10,8 +10,10 @@ describe('getSupabaseClient', () => {
     process.env = { ...OLD }
     delete process.env.NEXT_PUBLIC_SUPABASE_URL
     delete process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-    const { getSupabaseClient, isMemoryEnabled } =
-      require('@/features/memory/supabaseClient')
+    const {
+      getSupabaseClient,
+      isMemoryEnabled,
+    } = require('@/features/memory/supabaseClient')
     expect(getSupabaseClient()).toBeNull()
     expect(isMemoryEnabled()).toBe(false)
   })
@@ -23,8 +25,10 @@ describe('getSupabaseClient', () => {
       NEXT_PUBLIC_SUPABASE_URL: 'https://example.supabase.co',
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'test-key',
     }
-    const { getSupabaseClient, isMemoryEnabled } =
-      require('@/features/memory/supabaseClient')
+    const {
+      getSupabaseClient,
+      isMemoryEnabled,
+    } = require('@/features/memory/supabaseClient')
     expect(getSupabaseClient()).not.toBeNull()
     expect(isMemoryEnabled()).toBe(true)
   })

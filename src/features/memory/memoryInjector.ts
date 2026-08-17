@@ -9,15 +9,19 @@ export function buildMemoryBlock(
   if (profile) {
     const name = profile.preferred_name || profile.display_name
     if (name) lines.push(`- Tên/biệt danh: ${name}`)
-    if (profile.address_form) lines.push(`- Cách xưng hô: ${profile.address_form}`)
-    if (profile.grade_level) lines.push(`- Lớp/trình độ: ${profile.grade_level}`)
-    if (profile.current_topic) lines.push(`- Đang học: ${profile.current_topic}`)
+    if (profile.address_form)
+      lines.push(`- Cách xưng hô: ${profile.address_form}`)
+    if (profile.grade_level)
+      lines.push(`- Lớp/trình độ: ${profile.grade_level}`)
+    if (profile.current_topic)
+      lines.push(`- Đang học: ${profile.current_topic}`)
     if (profile.progress_notes)
       lines.push(`- Học tới đâu: ${profile.progress_notes}`)
     if (profile.interests && profile.interests.length)
       lines.push(`- Sở thích: ${profile.interests.join(', ')}`)
     if (profile.strengths) lines.push(`- Điểm mạnh: ${profile.strengths}`)
-    if (profile.weaknesses) lines.push(`- Hay sai/điểm yếu: ${profile.weaknesses}`)
+    if (profile.weaknesses)
+      lines.push(`- Hay sai/điểm yếu: ${profile.weaknesses}`)
   }
 
   for (const f of facts) {

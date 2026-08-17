@@ -1,8 +1,4 @@
-import {
-  StudentProfile,
-  MemoryFact,
-  ExtractionResult,
-} from './types'
+import { StudentProfile, MemoryFact, ExtractionResult } from './types'
 
 function pick(existing: string | null, incoming?: string): string | null {
   const trimmed = (incoming ?? '').trim()
