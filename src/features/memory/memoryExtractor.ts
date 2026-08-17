@@ -41,6 +41,10 @@ export async function maybeExtract(recentMessages: Message[]): Promise<void> {
   if (!store.studentId) return
   if (store.messagesSinceExtract < threshold()) return
 
+  // Bound extraction attempts to at most once per N new messages,
+  // regardless of whether the AI response parses successfully.
+  useMemoryStore.getState().resetExtractCounter()
+
   try {
     const transcript = recentMessages
       .slice(-12)

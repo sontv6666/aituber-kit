@@ -80,17 +80,31 @@ export async function persistMessage(
   studentId: string,
   role: string,
   content: string,
-  emotion?: string | null
+  emotion?: string | null,
+  clientMessageId?: string | null
 ): Promise<void> {
   const client = getSupabaseClient()
   if (!client || !studentId) return
   try {
-    await client.from('messages').insert({
-      student_id: studentId,
-      role,
-      content,
-      emotion: emotion ?? null,
-    })
+    if (clientMessageId) {
+      await client.from('messages').upsert(
+        {
+          student_id: studentId,
+          role,
+          content,
+          emotion: emotion ?? null,
+          client_message_id: clientMessageId,
+        },
+        { onConflict: 'student_id,client_message_id' }
+      )
+    } else {
+      await client.from('messages').insert({
+        student_id: studentId,
+        role,
+        content,
+        emotion: emotion ?? null,
+      })
+    }
   } catch (e) {
     console.warn('persistMessage failed', e)
   }

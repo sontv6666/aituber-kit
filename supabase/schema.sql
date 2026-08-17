@@ -26,10 +26,17 @@ create table if not exists public.messages (
   role text not null,
   content text,
   emotion text,
+  client_message_id text,
   created_at timestamptz not null default now()
 );
 create index if not exists messages_student_created_idx
   on public.messages (student_id, created_at);
+
+-- Upgrade path for installs that already ran this script before
+-- client_message_id existed.
+alter table public.messages add column if not exists client_message_id text;
+create unique index if not exists messages_student_client_msg_idx
+  on public.messages (student_id, client_message_id);
 
 create table if not exists public.memory_facts (
   id uuid primary key default gen_random_uuid(),

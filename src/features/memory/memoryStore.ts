@@ -17,6 +17,7 @@ interface MemoryState {
   bootstrap: () => Promise<void>
   applyMerge: (profile: StudentProfile, facts: MemoryFact[]) => void
   noteMessage: () => void
+  resetExtractCounter: () => void
   setProfile: (patch: Partial<StudentProfile>) => void
 }
 
@@ -58,6 +59,8 @@ export const useMemoryStore = create<MemoryState>((set, get) => ({
 
   noteMessage: () =>
     set((s) => ({ messagesSinceExtract: s.messagesSinceExtract + 1 })),
+
+  resetExtractCounter: () => set({ messagesSinceExtract: 0 }),
 
   setProfile: (patch) =>
     set((s) => {

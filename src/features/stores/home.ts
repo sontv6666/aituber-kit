@@ -209,14 +209,17 @@ const homeStore = create<HomeState>()(
               : Array.isArray(message.content)
                 ? (message.content[0]?.text ?? '')
                 : ''
-          if (studentId && existingMessageIndex === -1 && textContent) {
+          if (studentId && textContent) {
             void persistMessage(
               studentId,
               message.role ?? 'user',
               textContent,
-              (message as any).emotion ?? null
+              (message as any).emotion ?? null,
+              messageId
             )
-            useMemoryStore.getState().noteMessage()
+            if (existingMessageIndex === -1) {
+              useMemoryStore.getState().noteMessage()
+            }
           }
 
           return {

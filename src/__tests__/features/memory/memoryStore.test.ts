@@ -26,4 +26,10 @@ describe('memoryStore', () => {
     expect(useMemoryStore.getState().profile?.preferred_name).toBe('Bơ')
     expect(useMemoryStore.getState().messagesSinceExtract).toBe(0)
   })
+
+  it('resetExtractCounter sets messagesSinceExtract to 0', () => {
+    useMemoryStore.setState({ messagesSinceExtract: 7 })
+    useMemoryStore.getState().resetExtractCounter()
+    expect(useMemoryStore.getState().messagesSinceExtract).toBe(0)
+  })
 })
